@@ -63,7 +63,7 @@
                 <i class="fa-solid fa-crown text-base md:text-sm"></i><span class="md:hidden">Phase 3</span><span class="hidden md:inline">Phase 3: Mastery</span>
             </button>
             <button onclick="switchTab('routine')" id="tab-routine" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
-                <i class="fa-solid fa-list-check text-base md:text-sm"></i><span class="md:hidden">Routine</span><span class="hidden md:inline">Daily Routine</span>
+                <i class="fa-solid fa-stopwatch text-base md:text-sm"></i><span class="md:hidden">Practice</span><span class="hidden md:inline">Practice Log</span>
             </button>
             <button onclick="switchTab('library')" id="tab-library" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
                 <i class="fa-solid fa-book-open text-base md:text-sm"></i><span class="md:hidden">Library</span><span class="hidden md:inline">Move Library</span>
@@ -75,6 +75,7 @@
 
         <!-- Daily Routine -->
         <div id="section-routine" class="tab-content hidden space-y-6">
+            <div id="practice-panel" class="space-y-6"></div>
             <div class="bg-slate-800 border border-indigo-500/30 rounded-xl p-6 shadow-xl">
                 <h2 class="text-lg font-bold text-indigo-400 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-stopwatch"></i> Standard 20-Minute Daily Structure
@@ -141,7 +142,7 @@
 
         <!-- Move Library -->
         <div id="section-library" class="tab-content hidden">
-            <p class="text-sm text-slate-400 mb-4">The r/Cardistry community-selected tutorial list. Star moves as you learn them. Paid tutorials are marked <span class="text-amber-300 font-semibold">BUY</span>; please support creators rather than using pirated copies.</p>
+            <p class="text-sm text-slate-400 mb-4">The r/Cardistry community-selected tutorial list. Tap any move to track progress, log practice, and keep notes. Paid tutorials are marked <span class="text-amber-300 font-semibold">BUY</span>; please support creators rather than using pirated copies.</p>
             <div class="grid grid-cols-[1fr_1fr_auto] sm:flex gap-2 sm:gap-3 mb-4">
                 <div class="relative col-span-3 sm:flex-1">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
@@ -154,7 +155,7 @@
                     <option>Easy</option><option>Intermediate</option><option>Advanced</option>
                 </select>
                 <label class="flex items-center gap-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 cursor-pointer">
-                    <input id="lib-learned" type="checkbox" onchange="renderLibrary()" class="w-4 h-4"><span class="hidden sm:inline">Learned only</span><i class="fa-solid fa-star text-amber-400 sm:hidden" title="Learned only"></i>
+                    <input id="lib-learned" type="checkbox" onchange="renderLibrary()" class="w-4 h-4"><span class="hidden sm:inline">Started only</span><i class="fa-solid fa-bolt text-amber-400 sm:hidden" title="Started only"></i>
                 </label>
             </div>
             <div id="lib-count" class="text-xs text-slate-500 mb-3"></div>
@@ -284,6 +285,13 @@
         </p>
     </main>
 
+    <!-- Move detail sheet: bottom sheet on phones, centered dialog on larger screens -->
+    <div id="sheet" class="hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/60" onclick="closeMove()"></div>
+        <div id="sheet-panel" class="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-y-auto bg-slate-800 border-t border-slate-700 rounded-t-2xl p-5 pb-8 shadow-2xl
+                    md:inset-x-auto md:bottom-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[34rem] md:border md:rounded-2xl md:pb-5"></div>
+    </div>
+
     <script>
         // Cardistry Hub data: beginner progression, categories, tutorial library
         const HUB = {"prog":[{"n":1,"name":"Basic Grips","desc":"Common ways of holding a deck","links":[["Lotus","https://youtu.be/bt0RumRuwGQ"],["SoC","https://youtu.be/e8PAMLgLcfY"],["Fontaine","https://youtu.be/ocVFnpsNWpI"]]},{"n":2,"name":"Riffle Shuffle","desc":"Useful for breaking in a deck","links":[["Lotus","https://youtu.be/8eN1FIVVU4Q"],["SoC","https://youtu.be/f6ZD1lDbW3M"]]},{"n":3,"name":"Charlier Cut","desc":"Staple one-hand cut used in many moves","links":[["Lotus","https://youtu.be/BNC_DD9XccI"],["SoC","https://youtu.be/YdBdW0OlLpQ"],["Fontaine","https://youtu.be/43DQqBDSkow"]]},{"n":4,"name":"Swing Cut","desc":"Common way to make a packet of cards","links":[["Fontaine","https://youtu.be/-hvHFx9J2IU"],["SoC","https://youtu.be/Rn5lmEQej_k"]]},{"n":5,"name":"Swivel Cut","desc":"Another way to make a packet of cards","links":[["SoC","https://youtu.be/Rn5lmEQej_k?t=45"]]},{"n":6,"name":"Revolution Cut","desc":"Harder charlier cut that revolves a packet","links":[["Lotus","https://youtu.be/MVsjBiCVeTE"],["Virts","https://youtu.be/OulHu0hwuTQ"],["DG Tips","https://youtu.be/2_KndJznY5A"],["Rise Tips","https://youtu.be/4modjrvBopw"]]},{"n":7,"name":"Spring","desc":"Shoots a stream of cards; iconic move","links":[["Virts","https://youtu.be/sE1P7fINjX8"],["Lotus","https://youtu.be/YJX9sUTwUlg"],["Fontaine","https://youtu.be/XLRxqR9Oe8s"],["SoC","https://youtu.be/VhWmAgi5MRE"]]},{"n":8,"name":"Dribble","desc":"Smooth stream of dropping cards","links":[["Lotus","https://youtu.be/TpJhxz-z17g"],["Fontaine","https://youtu.be/ZLIQcpGLqlc"],["SoC","https://youtu.be/OhpGcjCzL5g"]]},{"n":9,"name":"Thumb Fan","desc":"Basic circular display of cards","links":[["Lotus","https://youtu.be/XFIQk2LiKD0"],["DG Tips","https://youtu.be/fZqLvpgyePY"],["Fontaine","https://youtu.be/1-7JE3-uiFM"],["SoC","https://youtu.be/2Rxky5ilkSo"]]},{"n":10,"name":"Smear Fan","desc":"One-handed simple fan","links":[["Lotus","https://youtu.be/1E7t2BUM2rw"],["SoC","https://youtu.be/8MF9m9A_Cpg"],["Fontaine","https://youtu.be/7Ld1yztVSRA"]]},{"n":11,"name":"Ribbon Spread","desc":"Displaying a deck across a table","links":[["Lotus","https://youtu.be/-w3RX2VELkk"],["SoC","https://youtu.be/0gGONQKuM5s"]]},{"n":12,"name":"Scissor Cut","desc":"Cut that moves packets length-wise","links":[["SoC","https://youtu.be/1E0n6kamKFo"],["Lotus","https://youtu.be/z9YkyM0hG3M"]]},{"n":13,"name":"Hot Shot Cut","desc":"Simple one-handed card shot/aerial","links":[["Lotus","https://youtu.be/aTV-TTI3ZPw"],["Rise","https://youtu.be/J5zyMSEvNv4"],["SoC","https://youtu.be/ENTgs9pxzEE"]]},{"n":14,"name":"Five Faces of Sybil","desc":"Classic two-handed cut and display","links":[["Lotus","https://youtu.be/s6F3Em7McOs"],["DG Tips","https://youtu.be/TB5DRyTPVZE"],["SoC","https://youtu.be/JHQ1ToMV4Ro"]]},{"n":15,"name":"WERM","desc":"Another simple two-handed cut + display","links":[["Buck","https://youtu.be/LywWQm0ivUE"]]},{"n":16,"name":"Faro Shuffle","desc":"Knacky starting mechanic for moves","links":[["Lotus","https://youtu.be/A-tSm8g-_pw"],["Rise","https://youtu.be/sBfU6MS5-vY?t=88"],["SoC","https://youtu.be/T0yO2n8x_DI"]]}],"cats":["Iconic Moves","One-Handed Cuts","Two-Handed Cuts","Aerials","Fans","Isolations / Twirls / 1-Card Moves","Combo Moves","Misc. Moves"],"lib":[{"name":"Anaconda","by":"Bone Ho","diff":"Intermediate","cat":0,"links":[["LINK","https://youtu.be/iS8gCWPPPk4"]]},{"name":"Bloom","by":"Zach Mueller","diff":"Easy","cat":0,"links":[["PREVIEW","https://youtu.be/GeGs2a0MUds"]]},{"name":"Bullet","by":"Andrei Jikh","diff":"Intermediate","cat":0,"links":[["TIPS","https://youtu.be/XJoLhxAdBGg?t=14m49s"],["BUY","https://store.theory11.com/products/genesis-by-andrei-jikh"]]},{"name":"Cascade","by":"Classic Move","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/H0uZAZ537kI"],["LINK","https://youtu.be/sBfU6MS5-vY?t=6m"]]},{"name":"Dump","by":"Frank Sung","diff":"Easy","cat":0,"links":[["PREVIEW","https://youtu.be/ffb5gqmkPQo"],["BUY","http://gum.co/dumptut"]]},{"name":"Flicker Shot","by":"Huron Low","diff":"Intermediate","cat":0,"links":[["PREVIEW","https://youtu.be/t-hcHmTNy7c"],["BUY","https://www.thevirts.com"]]},{"name":"Friffle","by":"Oliver Sogard","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/dt0UrHFAoZ8"]]},{"name":"LePaul Spread","by":"Paul LePaul","diff":"Intermediate","cat":0,"links":[["LINK","https://youtu.be/eUqkN0N5w6M"],["LINK","https://youtu.be/pT5BrGDe_Ts"]]},{"name":"Mockingbird","by":"Daren Yeow","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=1m20s"],["LINK","https://youtu.be/Hb4snFAFzTw"]]},{"name":"Pandora","by":"Dan and Dave Buck","diff":"Advanced","cat":0,"links":[["LINK","https://youtu.be/o6HNsuFaETA"],["BUY","https://www.vanishingincmagic.com/artofmagic/products/pandora-dan-dave/"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"Rainbow Spring","by":"Jaspas","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/_Wk3imz44qI?t=37"]]},{"name":"Ripple","by":"Kenneth Aidan Foo","diff":"Intermediate","cat":0,"links":[["PREVIEW","https://youtu.be/0EoDKXdjpAY?t=20s"],["BUY","https://the-new-deck-order.myshopify.com/collections/all/products/ripple-4"]]},{"name":"Spring","by":"Classic Move","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/sE1P7fINjX8"],["LINK","https://youtu.be/YJX9sUTwUlg"],["LINK","https://youtu.be/XLRxqR9Oe8s"]]},{"name":"Squeeze","by":"Daren Yeow","diff":"Intermediate","cat":0,"links":[["PREVIEW","https://youtu.be/8BvO_x6tuQ8"],["TIPS","https://youtu.be/OE4La-L15VE"],["BUY","https://www.thevirts.com"]]},{"name":"Under Pressure","by":"Classic Move","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/MoEZUNV9DWY?t=6m45s"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"V-Cascade","by":"Daren Yeow","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/I0KSaqiv5C0?t=2m49s"]]},{"name":"Waterwheel","by":"Daren Yeow","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/S7kG641iA_g?t=2m33s"]]},{"name":"Castiron","by":"Matt Samuel","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/ztuXhY-0ifY"]]},{"name":"Charlier Triangle","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/W1_k50kNLw4"]]},{"name":"Cobra Cut","by":"De'vo","diff":"Advanced","cat":1,"links":[["PREVIEW","https://youtu.be/4AQpMm_NBXg"],["TIPS","https://www.instagram.com/p/BPgogg-Ayqh/"]]},{"name":"Index Cut","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/RgZPZ1WR2f0"]]},{"name":"Judo-Flip","by":"Franco Pascali","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/XERJh5xlBps"]]},{"name":"Knuckle Cut","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/bGBidZeAWXo"]]},{"name":"Kroma Cuts","by":"Jano Slap","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/789xKHZN6Pg"]]},{"name":"Kryptonite","by":"Dan and Dave Buck","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/o6HNsuFaETA?t=177"]]},{"name":"L-Cuts","by":"Jerry Cestkowski","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/5fwh3_FNeR4"]]},{"name":"Mantra","by":"Tobias Levin","diff":"Advanced","cat":1,"links":[["PREVIEW","https://youtu.be/azLXnbQ0Ok8"],["TIPS","https://youtu.be/_gOrnMy9Zm4?t=311"]]},{"name":"Muse Cut","by":"Henrik Forberg","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/bpKbyxk78yw"]]},{"name":"OH Shuffle","by":"Jerry Cestkowski","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/TlfbxprcyMo"]]},{"name":"OHW","by":"Birger Karlsson","diff":"Intermediate","cat":1,"links":[["PREVIEW","https://youtu.be/NMY4AXUMGwg?t=24s"],["BUY","https://www.artofmagic.com/products/cardistry-con-2017-bundle"]]},{"name":"Retrigger","by":"Oliver Sogard","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/5MiqDxD_SJg"]]},{"name":"Rev 2","by":"Brian Tudor","diff":"Easy","cat":1,"links":[]},{"name":"Rubix","by":"Buseong Na","diff":"Advanced","cat":1,"links":[["LINK","https://youtu.be/Ac7V6l0zpbw"]]},{"name":"Sange","by":"Daniel Lin","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/fwD8PkEqyew"]]},{"name":"Thumb Cut","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/f10VOtEsLZQ"],["LINK","https://youtu.be/p8yYTy-5cFo"]]},{"name":"Trigger","by":"Nikolaj Pedersen","diff":"Intermediate","cat":1,"links":[]},{"name":"TRIST","by":"Birger Karlsson","diff":"Advanced","cat":1,"links":[["LINK","https://youtu.be/9Mnh8dTyTsQ"]]},{"name":"V-Cuts","by":"Tobias Levin","diff":"Advanced","cat":1,"links":[["LINK","https://youtu.be/PPMUpCCqNiI?t=473"]]},{"name":"Atrium","by":"Nobutaka Oi","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/d4IAYfh5xyg"]]},{"name":"Barolo 2","by":"Nikolaj Pedersen","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/PPMUpCCqNiI?t=251"]]},{"name":"Boooom","by":"Lun Zi","diff":"Advanced","cat":2,"links":[["LINK","https://youtu.be/KgOz2Qm1m1w"]]},{"name":"Bop","by":"Nguyen Hoang Duy","diff":"Easy","cat":2,"links":[["LINK","https://www.youtube.com/watch?v=l_UkBBqE3UE"]]},{"name":"Collapsybil","by":"Beckett Behel","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/_GrL91FR3iE"]]},{"name":"Crawl","by":"Franco Pascali","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/BpgQoQlnw0U"]]},{"name":"Dunsmuir","by":"Daniel Lin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/vvPeJw3t2aE"]]},{"name":"Fission","by":"Yang Chan","diff":"Advanced","cat":2,"links":[["PREVIEW","https://www.instagram.com/p/BjNyOtfFgdd/"]]},{"name":"Flip Phone","by":"Tobias Levin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/PPMUpCCqNiI?t=401"]]},{"name":"Hook","by":"Zach Mueller","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/jrVvVokplQ0"]]},{"name":"Lacoste 2","by":"Patrick Varnavas","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/HpjMy2CoQjM"]]},{"name":"Looper","by":"Ladislas Toubart","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/p52V7plGzQ0"]]},{"name":"Madonna","by":"Dan and Dave Buck","diff":"Intermediate","cat":2,"links":[]},{"name":"Maverick","by":"Oliver Sogard","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/v_Geze0Wpzw"],["BUY","https://dealersgrip.com/maverick/"]]},{"name":"Mocking God","by":"Duy Nguyen","diff":"Advanced","cat":2,"links":[["PREVIEW","https://youtu.be/1wfdb2HWsdU?t=29s"],["BUY","http://dicardistry.com/#!/tutorials/premium/7"]]},{"name":"Mockingbird","by":"Daren Yeow","diff":"Advanced","cat":2,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=1m20s"],["LINK","https://youtu.be/Hb4snFAFzTw"]]},{"name":"Molecule Cut","by":"Dan and Dave Buck","diff":"Easy","cat":2,"links":[["PREVIEW","https://store.theory11.com/products/molecule-cut-by-dananddave"],["BUY","https://store.theory11.com/products/molecule-cut-by-dananddave"]]},{"name":"Oddstyle 01","by":"Jaspas","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/oy2v7EnJXeg"]]},{"name":"Padlock","by":"@martin_cardist","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/alCdn_oBcoc"]]},{"name":"Pandora","by":"Dan and Dave Buck","diff":"Advanced","cat":2,"links":[["LINK","https://youtu.be/o6HNsuFaETA"],["BUY","https://www.artofmagic.com/products/pandora"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"Peach","by":"Frank Sung","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/Jc_GD8KONYo"]]},{"name":"Phaced","by":"Tobias Levin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/-YvPnQFHIK4"]]},{"name":"Pinball","by":"Harrison Mace","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/T3KO1QNf9YU"]]},{"name":"Skater Cut/Kickflip","by":"Joey Burton & Dan and Dave Buck","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/yCY2SOw4ZuI"]]},{"name":"Snake Charmer","by":"Kevin Ho","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/-sQFQEIuiTA"]]},{"name":"Spin Doctor","by":"Nikolaj Pedersen","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/VqAOhd3quYg?t=40s"]]},{"name":"Spin Sybil","by":"Jaspas","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/uOFnZ8fzowE"]]},{"name":"Squeeze","by":"Daren Yeow","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/8BvO_x6tuQ8"],["TIPS","https://youtu.be/OE4La-L15VE"],["BUY","https://www.thevirts.com"]]},{"name":"Squoze","by":"Eliot Slevin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/DqFJCuQhIE4"]]},{"name":"Very Bad Habit","by":"Brian Tudor","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=147"]]},{"name":"Virus","by":"Noel Heath","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/hpPm1lOSCPg"]]},{"name":"WERM","by":"Dan and Dave Buck","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/LywWQm0ivUE"],["BUY","https://store.theory11.com/products/werm-dan-and-dave-buck"]]},{"name":"Whiplash","by":"Matthew Beaudouin","diff":"Intermediate","cat":2,"links":[["LINK","https://www.youtube.com/watch?v=dYtVh6_HYu0"]]},{"name":"ATM","by":"Oliver Sogard","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/UvtjLyrdUTs"]]},{"name":"Backdrop","by":"Kevin Ho","diff":"Easy","cat":3,"links":[["PREVIEW","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"],["BUY","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"]]},{"name":"Biddle Flip","by":"Lars Mayrand","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/ptl5JNfcDkw"]]},{"name":"Blackhawk","by":"@martin_cardist","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/tvzxZBBG6kg"]]},{"name":"Deck Flip","by":"T.G. Murphy","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/DFIf1ZC1lY4"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"Erdnase Go Round","by":"Dan and Dave Buck","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/GKlB9HuFBeU"],["TIPS","https://youtu.be/cRH_kLqVX-I"],["BUY","https://www.vanishingincmagic.com/magic-downloads/flourishes-downloads/erdnase-go-round/"]]},{"name":"Flic","by":"Dan and Dave Buck","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/vG3hSfTdD2Y"]]},{"name":"Flicker Shot","by":"Huron Low","diff":"Intermediate","cat":3,"links":[["PREVIEW","https://youtu.be/t-hcHmTNy7c"],["BUY","https://www.thevirts.com"]]},{"name":"Instant Replay","by":"Paul Harris","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/Ul4Kc9ZOUOY"]]},{"name":"Judo-Shot","by":"Weston Hamilton","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/n9PQnaU3gCs"]]},{"name":"Long Dist. Spinner","by":"Audley V. Walsh","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/janqHU5Ydo0"]]},{"name":"Slicing Waterfall","by":"Jaspas","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/TYHV-8uSnkg"]]},{"name":"Thin Spring","by":"Classic Move","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/YeGPp3J774g"]]},{"name":"Throwback","by":"Max Galarce","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/fwxIraySvIE"]]},{"name":"Vertigo","by":"Dan and Dave Buck","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/UuGrR9HhDP0"],["BUY","https://www.vanishingincmagic.com/artofmagic/products/vertigo/"]]},{"name":"Carnahan Fan","by":"Dan and Dave Buck","diff":"Intermediate","cat":4,"links":[["PREVIEW","https://www.vanishingincmagic.com/artofmagic/products/carnahan-fan/"],["BUY","https://www.vanishingincmagic.com/artofmagic/products/carnahan-fan/"]]},{"name":"Crescent Rose","by":"Teo Chun Chieh","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/6zzsslPaC-g"]]},{"name":"Curly Q","by":"Randy Holt","diff":"Advanced","cat":4,"links":[["PREVIEW","https://youtu.be/IC9yyBfz58Q?t=9"]]},{"name":"Disk Fan","by":"Predator","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/gZjRfk52Lqk"]]},{"name":"Flower Fan","by":"Jerry Cestkowski","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/mBX-vhWpOtA"]]},{"name":"Fy Fan","by":"Birger Karlsson","diff":"Intermediate","cat":4,"links":[["PREVIEW","https://youtu.be/juGhc-Cxmjc?t=1m5s"]]},{"name":"Giant Fan","by":"Jerry Cestkowski","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/rSwTc81f3CE"]]},{"name":"Naoki Ogi Fan","by":"Naoki Ogi","diff":"Intermediate","cat":4,"links":[["TIPS","https://www.youtube.com/watch?v=f6bi0L75_l8"],["BUY","http://www.penguinmagic.com/p/S9685"]]},{"name":"Nebula Fan","by":"Baptiste Blomme","diff":"Intermediate","cat":4,"links":[["PREVIEW","https://www.instagram.com/p/Baq-UHvF-q_/"],["LINK","https://www.cardtutorialonly.com/wp-content/uploads/2016/09/HowTo360Easily.pdf"]]},{"name":"No-Weave Circle","by":"nebelfuchs","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/fVxo9e0whbo"]]},{"name":"Pressure Fan","by":"Classic Move","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/-GN_azvuYH4"],["LINK","https://youtu.be/MoEZUNV9DWY?t=1m29s"]]},{"name":"Reverse Fan","by":"Classic Move","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/3L-Z6H6oeck"]]},{"name":"Riffle Fan","by":"Dmitri Arleri","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/wNL7Vsw2L2A"],["TIPS","https://youtu.be/AcKhf1_qY_k"]]},{"name":"Smear Fan","by":"Classic Move","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/1E7t2BUM2rw"],["LINK","https://youtu.be/8MF9m9A_Cpg"],["LINK","https://youtu.be/7Ld1yztVSRA"]]},{"name":"Thumb Fan","by":"Classic Move","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/XFIQk2LiKD0"],["TIPS","https://youtu.be/fZqLvpgyePY"],["LINK","https://youtu.be/2Rxky5ilkSo"]]},{"name":"Yin-Yang Fan","by":"Tical","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/dPa7bmcVPaY"]]},{"name":"Angel","by":"Bone Ho","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/aNnBRUzCtyY"],["LINK","https://youtu.be/fRH4MyB4RVs"]]},{"name":"Basic Twirl","by":"Classic Move","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/fRH4MyB4RVs"]]},{"name":"Bullet","by":"Andrei Jikh","diff":"Intermediate","cat":5,"links":[["TIPS","https://youtu.be/XJoLhxAdBGg?t=14m49s"],["BUY","https://store.theory11.com/products/genesis-by-andrei-jikh"]]},{"name":"Chik Chik","by":"Nicolasupertramp","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/Zng-_4LeWRc"]]},{"name":"Falling Prince","by":"Kurtis Lin","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/RrtNjCYUtGE"]]},{"name":"Ferris","by":"Dan and Dave Buck","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/lLNzv0tkPbA"]]},{"name":"Flicker","by":"The Virts","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/RxGaOdPqVzo"],["TIPS","https://youtu.be/qNVMx2CL6Q4"],["TIPS","https://youtu.be/XJoLhxAdBGg?t=81"]]},{"name":"Inso Iso.","by":"Joey Cardist","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/IGtratrRTVM"]]},{"name":"Nestlo Iso.","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/dq6fbeIGfPI"]]},{"name":"One Card Twirl","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/aScUHcsIrvI"]]},{"name":"Padiddle / Pirouette","by":"Jerry Cestkowski","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/HDbxF6ONp5I"],["TIPS","https://youtu.be/7kB3wfbuvAY"],["TIPS","https://youtu.be/x_7njoWG9Yw"]]},{"name":"Palm Shift Iso.","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/yh6y9duc9sI"]]},{"name":"Phobos Deimos","by":"Noel Heath","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/PPMUpCCqNiI"],["BUY","http://www.cardistry-con.org/shop/brooklyn-bundle"]]},{"name":"Raccoon","by":"Kevin Ho","diff":"Easy","cat":5,"links":[["PREVIEW","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"],["BUY","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"]]},{"name":"Recoil","by":"Yang Chan","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/TlsIZZL6BzE"]]},{"name":"Rotation Iso.","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/aXa-8-lca5g"]]},{"name":"Satin","by":"kiichi","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/EQo51eI8dQY"]]},{"name":"Snap","by":"Nguyen Hoang Duy","diff":"Easy","cat":5,"links":[["LINK","https://www.youtube.com/watch?v=7fLC46AYgLs"]]},{"name":"Tiny Hands","by":"Scott Black","diff":"Intermediate","cat":5,"links":[["PREVIEW","https://youtu.be/NMY4AXUMGwg?t=55s"],["BUY","http://www.cardistry-con.org/shop/2017-tutorial-bundle"]]},{"name":"Turbine","by":"Andrei Jikh","diff":"Easy","cat":5,"links":[["PREVIEW","https://www.theory11.com/marketplace/andrei-jikh/turbine"],["BUY","https://www.theory11.com/marketplace/andrei-jikh/turbine"]]},{"name":"Two Card Twirl","by":"Kenneth Aidan Foo","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/M2ol1RyvhH4"]]},{"name":"Unnamed","by":"Broderick Rosete","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/skbUux3WIcw"]]},{"name":"Windstruck","by":"Yang Nguyen","diff":"Intermediate","cat":5,"links":[["LINK","https://www.youtube.com/watch?v=2nOzxog3iTo"]]},{"name":"ZM Card Twirl","by":"Zach Mueller","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/4cBMQX2zAvY"]]},{"name":"Cubone","by":"Leo Flores","diff":"Advanced","cat":6,"links":[["LINK","https://youtu.be/8Uyx8l3uZwg?t=451"]]},{"name":"Dropout","by":"Oliver Sogard","diff":"Easy","cat":6,"links":[["LINK","https://youtu.be/0_naI7jtzmc"]]},{"name":"Flippy","by":"Nguyen Hoang Duy","diff":"Intermediate","cat":6,"links":[["LINK","https://youtu.be/90mwq9S4a5s?t=37"],["BUY","https://the-new-deck-order.myshopify.com/products/spingod"]]},{"name":"Gecko","by":"Tim Zumstein","diff":"Easy","cat":6,"links":[["LINK","https://youtu.be/HFAD7HzhrBE"]]},{"name":"Legolove","by":"Nikolaj Pedersen","diff":"Intermediate","cat":6,"links":[["LINK","https://youtu.be/boV0c7bKAcM"]]},{"name":"Pincho","by":"Oliver Sogard","diff":"Easy","cat":6,"links":[["LINK","https://youtu.be/CiFSZ7CTVu8"]]},{"name":"Rolling Stones","by":"Tobias Levin","diff":"Intermediate","cat":6,"links":[["PREVIEW","https://youtu.be/mcuST7c-ZyE"]]},{"name":"Airstream","by":"Dan and Dave Buck","diff":"Easy","cat":7,"links":[["PREVIEW","https://youtu.be/NMY4AXUMGwg?t=20s"],["BUY","http://www.cardistry-con.org/shop/2017-tutorial-bundle"]]},{"name":"Armspread","by":"Classic Move","diff":"Easy","cat":7,"links":[["LINK","https://youtu.be/srSqrvcb6uQ"],["LINK","https://youtu.be/XhvD5h4sVBk"]]},{"name":"Buzzsaw","by":"Brendan Connor","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/A2e0AttfIN4?t=9m5s"]]},{"name":"Dripple","by":"Alvin Herp","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/hwTxU08nHsk"]]},{"name":"Flex","by":"Jonathan Warren","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/IYo6W9wyHxw"]]},{"name":"Friffle","by":"Oliver Sogard","diff":"Easy","cat":7,"links":[["LINK","https://youtu.be/dt0UrHFAoZ8"]]},{"name":"Rubix Opener","by":"The Virts","diff":"Easy","cat":7,"links":[["PREVIEW","https://youtu.be/2zhmi1pP054"],["BUY","http://www.thevirts.com"]]},{"name":"Shaolin","by":"Henrik Forberg","diff":"Easy","cat":7,"links":[["PREVIEW","https://youtu.be/wZsJ9bgm8c8"]]},{"name":"Spring Spin","by":"Antariksh Singh","diff":"Advanced","cat":7,"links":[["LINK","https://youtu.be/iqib_zQ9Yms"]]},{"name":"Swing Opener","by":"Jaspas","diff":"Easy","cat":7,"links":[["LINK","https://youtu.be/ATXFLKX2Vf4"]]},{"name":"Waterbend","by":"Joe Feldpausch","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/_BcGZbFNM0g"]]},{"name":"yo!","by":"Lee Asher","diff":"Intermediate","cat":7,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=2m45s"]]}]};
@@ -326,45 +334,215 @@
             get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; } },
             set(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
         };
-        let completedDays = store.get('cardistry_progress', {});
-        let learned = store.get('cardistry_learned', {});
 
         const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         const linkChip = ([label, url]) => {
             const buy = label === 'BUY';
             return `<a href="${esc(url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs md:text-[11px] font-semibold px-2.5 py-1 md:px-2 md:py-0.5 rounded border ${buy ? 'border-amber-500/40 text-amber-300 hover:bg-amber-500/10' : 'border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10'} transition"><i class="fa-solid ${buy ? 'fa-cart-shopping' : 'fa-play'} text-[9px]"></i>${esc(label)}</a>`;
         };
+        const INPUT = 'bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 [color-scheme:dark]';
+        const CHIP = 'text-xs font-semibold px-2.5 py-1 rounded-md border border-slate-700 text-slate-300 hover:border-indigo-500 transition';
+        const BTN = 'shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg px-4 py-2 transition';
+
+        // ---------- Dates (local YYYY-MM-DD) ----------
+        const isoDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        const today = () => isoDate(new Date());
+        const daysAgo = d => Math.round((new Date(today() + 'T00:00') - new Date(d + 'T00:00')) / 864e5);
+        const ago = d => { const n = daysAgo(d); return n <= 0 ? 'today' : n === 1 ? 'yesterday' : `${n}d ago`; };
+        const fmtDate = d => new Date(d + 'T00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        const fmtDay = d => { const n = daysAgo(d); return n === 0 ? 'Today' : n === 1 ? 'Yesterday' : new Date(d + 'T00:00').toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }); };
+        const newest = (a, b) => b.d.localeCompare(a.d) || b.id.localeCompare(a.id);
+
+        // ---------- State ----------
+        // S.done:  { [blockId]: true } for roadmap blocks with no moves (reviews, Phase 3)
+        // S.moves: { [moveId]: { stage, watched: { [tutorialIndex]: 'YYYY-MM-DD' }, notes } }
+        // S.log:   [{ id, m: moveId, d: 'YYYY-MM-DD', r: reps, n?: note }]
+        // Move ids: 'p1'..'p16' = beginner progression, 'l<index>' = Move Library entry.
+        const STAGES = [
+            { name: 'Not started', cls: 'bg-slate-700/40 text-slate-300 border-slate-500' },
+            { name: 'Learning', cls: 'bg-sky-500/15 text-sky-300 border-sky-500/40' },
+            { name: 'Practicing', cls: 'bg-amber-500/15 text-amber-300 border-amber-500/40' },
+            { name: 'Clean', cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40' },
+            { name: 'Mastered', cls: 'bg-violet-500/15 text-violet-300 border-violet-500/40' }
+        ];
+        const STAGE_HINTS = ['', 'Watching tutorials, slow reps', 'Can do it, still sloppy', '10 clean in a row', 'Smooth at speed without looking'];
+        const CLEAN = 3;
+
+        const trueKeys = obj => Object.keys(obj || {}).filter(k => obj[k]);
+
+        function normalize(data) {
+            data = data || {};
+            const s = { done: {}, moves: data.moves || {}, log: Array.isArray(data.log) ? data.log : [] };
+            (data.done || []).forEach(id => { s.done[id] = true; });
+            if (!data.moves) {
+                // Migrate v1 data: checked blocks and starred library moves become "Clean"
+                const blocks = Object.values(roadmapData).flat();
+                (data.progress || []).forEach(id => {
+                    const b = blocks.find(b => String(b.id) === String(id));
+                    if (!b) return;
+                    if (b.moves.length) b.moves.forEach(n => { s.moves['p' + n] = { stage: CLEAN, watched: {}, notes: '' }; });
+                    else s.done[b.id] = true;
+                });
+                (data.learned || []).forEach(name => {
+                    const i = HUB.lib.findIndex(m => m.name === name);
+                    if (i >= 0) s.moves['l' + i] = { stage: CLEAN, watched: {}, notes: '' };
+                });
+            }
+            return s;
+        }
+        const serialize = () => ({ done: trueKeys(S.done), moves: S.moves, log: S.log });
+
+        let S = normalize(store.get('cardistry_state_v2', null) ||
+            { progress: trueKeys(store.get('cardistry_progress', {})), learned: trueKeys(store.get('cardistry_learned', {})) });
+
+        const EMPTY = { stage: 0, watched: {}, notes: '' };
+        const peek = id => S.moves[id] || EMPTY;
+        const ensure = id => (S.moves[id] ||= { stage: 0, watched: {}, notes: '' });
+
+        function moveInfo(id) {
+            if (id[0] === 'p') {
+                const m = HUB.prog[+id.slice(1) - 1];
+                return { name: m.name, sub: `Beginner move #${m.n} · ${m.desc}`, links: m.links };
+            }
+            const m = HUB.lib[+id.slice(1)];
+            return { name: m.name, sub: `${m.by} · ${m.diff} · ${HUB.cats[m.cat]}`, links: m.links };
+        }
+
+        function stats(id) {
+            let reps = 0, sessions = 0, last = '';
+            for (const e of S.log) if (e.m === id) { reps += e.r; sessions++; if (e.d > last) last = e.d; }
+            return { reps, sessions, last };
+        }
+        const isStarted = id => peek(id).stage > 0 || S.log.some(e => e.m === id);
+        const stagePill = s => `<span class="shrink-0 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${STAGES[s].cls}">${STAGES[s].name}</span>`;
+
+        // ---------- Sync (localStorage cache + Firestore when signed in) ----------
+        function getLocalData() { return serialize(); }
+
+        function persist() {
+            store.set('cardistry_state_v2', serialize());
+            if (window.cloudSave) window.cloudSave(serialize());
+        }
+
+        function applyCloudData(data) {
+            const typing = openId && document.activeElement && document.activeElement.id === 'move-notes';
+            const draft = typing ? document.activeElement.value : null;
+            S = normalize(data);
+            if (typing) ensure(openId).notes = draft;
+            store.set('cardistry_state_v2', serialize());
+            renderAll();
+        }
+
+        function commit() { persist(); renderAll(); }
+
+        // ---------- Actions ----------
+        function setStage(id, s) { ensure(id).stage = s; commit(); }
+
+        function toggleWatched(id, i) {
+            const w = (ensure(id).watched ||= {});
+            if (w[i]) delete w[i]; else w[i] = today();
+            commit();
+        }
+
+        function addLog(id, d, r, n) {
+            S.log.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), m: id, d, r, ...(n ? { n } : {}) });
+            if (!peek(id).stage) ensure(id).stage = 1;
+        }
+
+        function logPractice(id) {
+            const repsEl = document.getElementById('log-reps');
+            const reps = parseInt(repsEl.value, 10);
+            if (!(reps > 0)) { repsEl.focus(); return; }
+            addLog(id, document.getElementById('log-date').value || today(), reps, document.getElementById('log-note').value.trim());
+            repsEl.value = '';
+            document.getElementById('log-note').value = '';
+            commit();
+        }
+
+        function quickLog() {
+            const repsEl = document.getElementById('ql-reps');
+            const reps = parseInt(repsEl.value, 10);
+            if (!(reps > 0)) { repsEl.focus(); return; }
+            addLog(document.getElementById('ql-move').value, today(), reps, '');
+            repsEl.value = '';
+            commit();
+        }
+
+        function deleteLog(entryId) {
+            if (!confirm('Delete this practice entry?')) return;
+            S.log = S.log.filter(e => e.id !== entryId);
+            commit();
+        }
+
+        function toggleDone(blockId) { S.done[blockId] = !S.done[blockId]; commit(); }
+
+        let notesTimer = null;
+        function saveNotes(id, text) {
+            ensure(id).notes = text;
+            const status = document.getElementById('notes-status');
+            if (status) status.textContent = 'Saving…';
+            clearTimeout(notesTimer);
+            notesTimer = setTimeout(() => {
+                notesTimer = null;
+                persist();
+                const s = document.getElementById('notes-status');
+                if (s) s.textContent = 'Saved';
+            }, 700);
+        }
+
+        // ---------- Rendering ----------
+        function renderAll() {
+            renderPhases();
+            renderLibrary();
+            renderPractice();
+            renderSheet();
+            updateProgress();
+        }
+
+        function moveRow(id) {
+            const m = moveInfo(id), st = peek(id), x = stats(id);
+            const bits = [];
+            if (m.links.length) bits.push(`<i class="fa-solid fa-play text-[9px]"></i> ${Object.keys(st.watched || {}).length}/${m.links.length} watched`);
+            bits.push(x.reps ? `${x.reps.toLocaleString()} reps` : 'no reps yet');
+            if (x.last) bits.push(ago(x.last));
+            return `
+                <button onclick="openMove('${id}')" class="w-full text-left flex items-center justify-between gap-3 bg-slate-900/60 border border-slate-700 hover:border-indigo-500 rounded-lg px-3 py-2.5 transition">
+                    <div class="min-w-0">
+                        <div class="font-semibold text-sm text-slate-100 truncate">${esc(m.name)}${st.notes ? ' <i class="fa-regular fa-note-sticky text-slate-500 text-xs"></i>' : ''}</div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">${bits.join(' · ')}</div>
+                    </div>
+                    ${stagePill(st.stage)}
+                </button>`;
+        }
 
         function renderPhase(phaseKey, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = `
+            document.getElementById(containerId).innerHTML = `
                 <div class="bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 text-xs sm:text-sm rounded-xl px-4 sm:px-5 py-3 flex gap-3 items-start">
                     <i class="fa-solid fa-calendar-days mt-0.5"></i>
-                    <span>${phaseNotes[phaseKey]} <strong class="text-indigo-100">Move on when you can do a move cleanly 10 times in a row, not when the calendar says so.</strong></span>
+                    <span>${phaseNotes[phaseKey]} <strong class="text-indigo-100">Tap a move to log practice. Move on when it reaches Clean (10 in a row), not when the calendar says so.</strong></span>
                 </div>` + roadmapData[phaseKey].map(item => {
-                const done = !!completedDays[item.id];
-                const tutorials = item.moves.map(n => HUB.prog[n - 1]).map(m => `
-                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1.5 text-xs">
-                        <span class="text-slate-400 sm:mr-1"><i class="fa-solid fa-graduation-cap"></i> ${esc(m.name)} tutorials:</span>
-                        <div class="flex flex-wrap gap-1.5">${m.links.map(linkChip).join('')}</div>
-                    </div>`).join('');
+                const ids = item.moves.map(n => 'p' + n);
+                const done = ids.length ? ids.every(id => peek(id).stage >= CLEAN) : !!S.done[item.id];
+                const action = ids.length
+                    ? (done ? `<span class="shrink-0 flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold bg-emerald-500/15 border-emerald-500/40 text-emerald-300"><i class="fa-solid fa-circle-check text-base"></i>Clean</span>` : '')
+                    : `<button onclick="toggleDone('${item.id}')" aria-pressed="${done}"
+                               class="shrink-0 flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition ${done ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-indigo-500'}">
+                           <i class="fa-${done ? 'solid' : 'regular'} fa-circle-check text-base"></i>${done ? 'Done' : 'Mark done'}
+                       </button>`;
                 return `
                 <div class="bg-slate-800 border ${done ? 'border-emerald-500/40' : 'border-slate-700'} rounded-xl p-4 sm:p-5 space-y-2">
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                             <span class="inline-block bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 font-mono font-bold text-[11px] px-2 py-0.5 rounded-md">${item.when}</span>
-                            <h3 class="font-bold text-base sm:text-lg text-slate-100 leading-snug mt-1.5 ${done ? 'line-through decoration-slate-500' : ''}">${item.title}</h3>
+                            <h3 class="font-bold text-base sm:text-lg text-slate-100 leading-snug mt-1.5">${item.title}</h3>
                         </div>
-                        <button onclick="toggleDay('${item.id}')" aria-pressed="${done}"
-                                class="shrink-0 flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition ${done ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-indigo-500'}">
-                            <i class="fa-${done ? 'solid' : 'regular'} fa-circle-check text-base"></i>${done ? 'Done' : 'Mark done'}
-                        </button>
+                        ${action}
                     </div>
                     <p class="text-sm text-slate-400"><strong class="text-slate-300">Focus:</strong> ${item.focus}</p>
                     <ul class="text-xs sm:text-sm text-slate-300 space-y-1 list-disc pl-5">
                         ${item.exercises.map(ex => `<li>${ex}</li>`).join('')}
                     </ul>
-                    ${tutorials ? `<div class="pt-1 space-y-2">${tutorials}</div>` : ''}
+                    ${ids.length ? `<div class="pt-1 space-y-2">${ids.map(moveRow).join('')}</div>` : ''}
                 </div>`;
             }).join('');
         }
@@ -375,22 +553,19 @@
             renderPhase('phase3', 'section-phase3');
         }
 
-        function toggleDay(day) {
-            completedDays[day] = !completedDays[day];
-            persist();
-            renderPhases();
-            updateProgress();
-        }
-
         function updateProgress() {
-            const allDays = Object.values(roadmapData).flat().map(d => String(d.id));
-            const count = allDays.filter(d => completedDays[d]).length;
-            const percentage = Math.round((count / allDays.length) * 100);
+            const blocks = Object.values(roadmapData).flat();
+            const moveIds = [...new Set(blocks.flatMap(b => b.moves.map(n => 'p' + n)))];
+            const manual = blocks.filter(b => !b.moves.length);
+            // Each beginner move counts up to Clean; each move-less block counts when marked done
+            const score = moveIds.reduce((t, id) => t + Math.min(peek(id).stage, CLEAN) / CLEAN, 0) + manual.filter(b => S.done[b.id]).length;
+            const pct = Math.round(score / (moveIds.length + manual.length) * 100);
+            const clean = moveIds.filter(id => peek(id).stage >= CLEAN).length;
+            const reps = S.log.reduce((t, e) => t + e.r, 0);
 
-            document.getElementById('overall-progress').style.width = percentage + '%';
-            document.getElementById('progress-text').innerText = `${percentage}% Complete`;
-            const n = HUB.lib.filter(m => learned[m.name]).length;
-            document.getElementById('learned-text').innerText = `${n} library move${n === 1 ? '' : 's'} learned`;
+            document.getElementById('overall-progress').style.width = pct + '%';
+            document.getElementById('progress-text').innerText = `${pct}% Complete`;
+            document.getElementById('learned-text').innerText = `${clean}/${moveIds.length} clean · ${reps.toLocaleString()} reps`;
         }
 
         const diffStyle = {
@@ -403,66 +578,174 @@
             const q = document.getElementById('lib-search').value.trim().toLowerCase();
             const cat = document.getElementById('lib-cat').value;
             const diff = document.getElementById('lib-diff').value;
-            const onlyLearned = document.getElementById('lib-learned').checked;
-            const rows = HUB.lib.map((m, i) => ({ ...m, i })).filter(m =>
+            const onlyStarted = document.getElementById('lib-learned').checked;
+            const rows = HUB.lib.map((m, i) => ({ ...m, id: 'l' + i })).filter(m =>
                 (!q || m.name.toLowerCase().includes(q) || m.by.toLowerCase().includes(q)) &&
                 (cat === '' || m.cat === +cat) &&
                 (!diff || m.diff === diff) &&
-                (!onlyLearned || learned[m.name]));
+                (!onlyStarted || isStarted(m.id)));
 
             document.getElementById('lib-count').innerText = `${rows.length} of ${HUB.lib.length} moves`;
-            document.getElementById('lib-grid').innerHTML = rows.map(m => `
-                <div class="bg-slate-800 border ${learned[m.name] ? 'border-indigo-500/60' : 'border-slate-700'} rounded-xl p-4 flex flex-col gap-2">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="font-bold text-slate-100">${esc(m.name)}</div>
+            document.getElementById('lib-grid').innerHTML = rows.map(m => {
+                const st = peek(m.id), x = stats(m.id);
+                const footer = x.reps ? `${x.reps.toLocaleString()} reps · ${ago(x.last)}`
+                    : m.links.length ? `${m.links.length} tutorial link${m.links.length > 1 ? 's' : ''}` : 'No tutorial';
+                return `
+                <button onclick="openMove('${m.id}')" class="text-left bg-slate-800 border ${st.stage >= CLEAN ? 'border-emerald-500/40' : 'border-slate-700'} hover:border-indigo-500 rounded-xl p-4 flex flex-col gap-2 transition">
+                    <div class="flex items-start justify-between gap-2 w-full">
+                        <div class="min-w-0">
+                            <div class="font-bold text-slate-100">${esc(m.name)}${st.notes ? ' <i class="fa-regular fa-note-sticky text-slate-500 text-xs"></i>' : ''}</div>
                             <div class="text-xs text-slate-400">${esc(m.by)}</div>
                         </div>
-                        <button onclick="toggleLearned(${m.i})" title="Mark learned" class="text-lg ${learned[m.name] ? 'text-amber-400' : 'text-slate-600 hover:text-slate-400'} transition">
-                            <i class="fa-${learned[m.name] ? 'solid' : 'regular'} fa-star"></i>
-                        </button>
+                        ${st.stage ? stagePill(st.stage) : ''}
                     </div>
                     <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
                         <span class="px-2 py-0.5 rounded border ${diffStyle[m.diff] || ''}">${esc(m.diff)}</span>
                         <span class="text-slate-500">${esc(HUB.cats[m.cat])}</span>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 mt-auto pt-1">
-                        ${m.links.length ? m.links.map(linkChip).join('') : '<span class="text-[11px] text-slate-500 italic">No tutorial: learn from slo-mo performances</span>'}
+                    <div class="text-[11px] text-slate-500">${footer}</div>
+                </button>`;
+            }).join('') || '<div class="text-sm text-slate-500 col-span-full">No moves match.</div>';
+        }
+
+        function logRow(e, showName) {
+            return `
+                <div class="flex items-center gap-2 py-1 text-sm min-w-0">
+                    ${showName
+                        ? `<button onclick="openMove('${e.m}')" class="text-slate-200 hover:text-indigo-300 text-left truncate">${esc(moveInfo(e.m).name)}</button>`
+                        : `<span class="text-slate-300 shrink-0">${fmtDay(e.d)}</span>`}
+                    <span class="text-slate-400 shrink-0">× ${e.r}</span>
+                    ${e.n ? `<span class="text-xs text-slate-500 truncate">${esc(e.n)}</span>` : ''}
+                    <button onclick="deleteLog('${e.id}')" aria-label="Delete entry" class="ml-auto shrink-0 text-slate-600 hover:text-rose-400 px-1"><i class="fa-solid fa-xmark"></i></button>
+                </div>`;
+        }
+
+        function renderPractice() {
+            const el = document.getElementById('practice-panel');
+            const prevMove = document.getElementById('ql-move')?.value;
+            const prevReps = document.getElementById('ql-reps')?.value || '';
+            const sorted = [...S.log].sort(newest);
+            const sel = prevMove || (sorted[0] ? sorted[0].m : 'p1');
+            const libStarted = HUB.lib.map((m, i) => ({ name: m.name, id: 'l' + i })).filter(x => isStarted(x.id));
+            const opt = (id, label) => `<option value="${id}" ${id === sel ? 'selected' : ''}>${esc(label)}</option>`;
+            const todays = S.log.filter(e => e.d === today());
+            const days = {};
+            sorted.forEach(e => (days[e.d] ||= []).push(e));
+            const dayKeys = Object.keys(days).slice(0, 14);
+
+            el.innerHTML = `
+                <div class="bg-slate-800 border border-indigo-500/30 rounded-xl p-4 sm:p-6 shadow-xl">
+                    <h2 class="text-lg font-bold text-indigo-400 mb-3 flex items-center gap-2"><i class="fa-solid fa-dumbbell"></i> Log Practice</h2>
+                    <select id="ql-move" class="${INPUT} w-full">
+                        <optgroup label="Beginner moves">${HUB.prog.map(m => opt('p' + m.n, `${m.n}. ${m.name}`)).join('')}</optgroup>
+                        ${libStarted.length ? `<optgroup label="Library moves">${libStarted.map(x => opt(x.id, x.name)).join('')}</optgroup>` : ''}
+                    </select>
+                    <div class="flex gap-2 mt-2">
+                        <input id="ql-reps" type="number" inputmode="numeric" min="1" placeholder="Reps" value="${esc(prevReps)}" class="${INPUT} flex-1 min-w-0">
+                        <button onclick="quickLog()" class="${BTN}"><i class="fa-solid fa-plus"></i> Log</button>
                     </div>
-                </div>`).join('') || '<div class="text-sm text-slate-500 col-span-full">No moves match.</div>';
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        ${[10, 25, 50, 100].map(n => `<button onclick="document.getElementById('ql-reps').value=${n}" class="${CHIP}">${n}</button>`).join('')}
+                        <button onclick="openMove(document.getElementById('ql-move').value)" class="${CHIP} ml-auto"><i class="fa-regular fa-note-sticky"></i> Details & notes</button>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-3">Today: <strong class="text-slate-200">${todays.reduce((t, e) => t + e.r, 0).toLocaleString()} reps</strong> in ${todays.length} entr${todays.length === 1 ? 'y' : 'ies'}. Library moves show up here once you start tracking them.</p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 sm:p-6">
+                    <h3 class="font-bold text-slate-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-sky-400"></i> History</h3>
+                    ${dayKeys.length ? dayKeys.map(d => `
+                        <div class="mb-4 last:mb-0">
+                            <div class="flex justify-between text-xs font-semibold text-slate-400 border-b border-slate-700 pb-1 mb-1">
+                                <span>${fmtDay(d)}</span><span>${days[d].reduce((t, e) => t + e.r, 0).toLocaleString()} reps</span>
+                            </div>
+                            ${days[d].map(e => logRow(e, true)).join('')}
+                        </div>`).join('') : '<p class="text-sm text-slate-500">No practice logged yet. Log your first session above!</p>'}
+                </div>`;
         }
 
-        function toggleLearned(i) {
-            const name = HUB.lib[i].name;
-            learned[name] = !learned[name];
-            persist();
-            renderLibrary();
-            updateProgress();
+        // ---------- Move detail sheet ----------
+        let openId = null;
+        const sectionHead = (icon, title) => `<h3 class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2 flex items-center gap-1.5"><i class="fa-solid ${icon}"></i> ${title}</h3>`;
+        const statBox = (value, label) => `<div class="bg-slate-900/60 border border-slate-700 rounded-lg py-2"><div class="text-base font-bold text-slate-100">${value}</div><div class="text-[10px] uppercase tracking-wide text-slate-500">${label}</div></div>`;
+
+        function renderSheet(fresh) {
+            if (!openId) return;
+            // Don't clobber the notes box while it's being typed in
+            if (!fresh && document.activeElement && document.activeElement.id === 'move-notes') return;
+            const id = openId, m = moveInfo(id), st = peek(id), x = stats(id);
+            const keep = (elId, fallback) => (!fresh && document.getElementById(elId)?.value) || fallback;
+            const date = keep('log-date', today()), reps = keep('log-reps', ''), note = keep('log-note', '');
+            const entries = S.log.filter(e => e.m === id).sort(newest);
+
+            document.getElementById('sheet-panel').innerHTML = `
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <h2 class="text-lg font-bold text-slate-100 leading-snug">${esc(m.name)}</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">${esc(m.sub)}</p>
+                    </div>
+                    <button onclick="closeMove()" aria-label="Close" class="shrink-0 text-slate-400 hover:text-slate-100 text-xl -mr-1 px-2"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <section class="mt-4">
+                    ${sectionHead('fa-signal', 'Progress')}
+                    <div class="grid grid-cols-5 gap-1.5">
+                        ${STAGES.map((s, i) => `<button onclick="setStage('${id}', ${i})" class="rounded-lg border px-1 py-2 text-[11px] font-semibold leading-tight transition ${st.stage === i ? s.cls : 'border-slate-700 text-slate-500 hover:text-slate-300'}">${s.name}</button>`).join('')}
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-1.5">${st.stage ? STAGE_HINTS[st.stage] : 'Tap a stage as you improve.'}</p>
+                </section>
+
+                <div class="grid grid-cols-3 gap-2 mt-4 text-center">
+                    ${statBox(x.reps.toLocaleString(), 'Total reps')}${statBox(x.sessions, 'Sessions')}${statBox(x.last ? ago(x.last) : '—', 'Last practiced')}
+                </div>
+
+                <section class="mt-5">
+                    ${sectionHead('fa-dumbbell', 'Log practice')}
+                    <div class="flex gap-2">
+                        <input id="log-date" type="date" value="${date}" max="${today()}" class="${INPUT} w-[9.5rem] shrink-0">
+                        <input id="log-reps" type="number" inputmode="numeric" min="1" placeholder="Reps" value="${esc(reps)}" class="${INPUT} flex-1 min-w-0">
+                        <button onclick="logPractice('${id}')" class="${BTN}">Log</button>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        ${[10, 25, 50, 100].map(n => `<button onclick="document.getElementById('log-reps').value=${n}" class="${CHIP}">${n}</button>`).join('')}
+                    </div>
+                    <input id="log-note" type="text" placeholder="Session note (optional)" value="${esc(note)}" class="${INPUT} w-full mt-2">
+                    ${entries.length ? `<div class="mt-3">${entries.slice(0, 10).map(e => logRow(e, false)).join('')}
+                        ${entries.length > 10 ? `<p class="text-[11px] text-slate-500 mt-1">+${entries.length - 10} older entries in the Practice tab</p>` : ''}</div>` : ''}
+                </section>
+
+                <section class="mt-5">
+                    ${sectionHead('fa-play', 'Tutorials')}
+                    ${m.links.length ? `<div class="space-y-2">${m.links.map((l, i) => {
+                        const w = (st.watched || {})[i];
+                        return `<div class="flex items-center justify-between gap-2">
+                            ${linkChip(l)}
+                            <button onclick="toggleWatched('${id}', ${i})" class="text-xs font-semibold ${w ? 'text-emerald-300' : 'text-slate-400 hover:text-slate-200'}">
+                                <i class="fa-${w ? 'solid' : 'regular'} fa-circle-check"></i> ${w ? 'Watched ' + fmtDate(w) : 'Mark watched'}
+                            </button>
+                        </div>`;
+                    }).join('')}</div>` : '<p class="text-xs text-slate-500 italic">No tutorial: learn from slo-mo performances.</p>'}
+                </section>
+
+                <section class="mt-5">
+                    ${sectionHead('fa-note-sticky', 'Notes')}
+                    <textarea id="move-notes" rows="4" oninput="saveNotes('${id}', this.value)" placeholder="Grip details, what's tripping you up, tips from the tutorial…" class="${INPUT} w-full resize-y">${esc(st.notes || '')}</textarea>
+                    <div id="notes-status" class="text-[11px] text-slate-500 h-4 mt-1"></div>
+                </section>`;
         }
 
-        // Progress is cached in localStorage and, when signed in, synced to Firestore
-        // (stored as arrays of ids/names so keys like "29+" or "Inso Iso." are safe).
-        const trueKeys = obj => Object.keys(obj).filter(k => obj[k]);
-        const toFlags = arr => Object.fromEntries((arr || []).map(k => [k, true]));
-
-        function getLocalData() {
-            return { progress: trueKeys(completedDays), learned: trueKeys(learned) };
+        function openMove(id) {
+            openId = id;
+            renderSheet(true);
+            document.getElementById('sheet').classList.remove('hidden');
+            document.getElementById('sheet-panel').scrollTop = 0;
+            document.body.style.overflow = 'hidden';
         }
 
-        function persist() {
-            store.set('cardistry_progress', completedDays);
-            store.set('cardistry_learned', learned);
-            if (window.cloudSave) window.cloudSave(getLocalData());
-        }
-
-        function applyCloudData(data) {
-            completedDays = toFlags(data.progress);
-            learned = toFlags(data.learned);
-            store.set('cardistry_progress', completedDays);
-            store.set('cardistry_learned', learned);
-            renderPhases();
-            renderLibrary();
-            updateProgress();
+        function closeMove() {
+            openId = null;
+            document.getElementById('sheet').classList.add('hidden');
+            document.body.style.overflow = '';
+            if (notesTimer) { clearTimeout(notesTimer); notesTimer = null; persist(); }
+            renderAll();
         }
 
         function renderAccount(user) {
@@ -486,9 +769,8 @@
         // Initialize
         document.getElementById('lib-cat').innerHTML = '<option value="">All categories</option>' +
             HUB.cats.map((c, i) => `<option value="${i}">${esc(c)}</option>`).join('');
-        renderPhases();
-        renderLibrary();
-        updateProgress();
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && openId) closeMove(); });
+        renderAll();
     </script>
 
     <script type="module">

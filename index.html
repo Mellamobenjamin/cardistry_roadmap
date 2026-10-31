@@ -2,33 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1e293b">
     <title>Cardistry Training Roadmap & Daily Tracker</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='8' width='30' height='44' rx='5' fill='%234f46e5' transform='rotate(-14 23 30)'/%3E%3Cg transform='rotate(10 38 34)'%3E%3Crect x='23' y='12' width='30' height='44' rx='5' fill='%23fff' stroke='%234f46e5' stroke-width='3'/%3E%3Cpath d='M38 22c-7 8-11 11-11 16a5.5 5.5 0 0 0 10 3l-2 6h6l-2-6a5.5 5.5 0 0 0 10-3c0-5-4-8-11-16z' fill='%231e1b4b'/%3E%3C/g%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .tab-active {
-            border-bottom: 2px solid #6366f1;
-            color: #818cf8 !important;
+        .tab-active { color: #818cf8 !important; }
+        @media (min-width: 768px) {
+            .tab-active { border-bottom: 2px solid #6366f1; }
         }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { scrollbar-width: none; }
         a.ext { color: #a5b4fc; }
         a.ext:hover { color: #c7d2fe; text-decoration: underline; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans pb-12">
-    <!-- Header -->
-    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans pb-24 md:pb-12">
+    <!-- Header (scrolls away on phones, sticky on larger screens) -->
+    <header class="bg-slate-800 border-b border-slate-700 md:sticky md:top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 md:py-4 flex flex-wrap justify-between items-center gap-3 md:gap-4">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-indigo-600 rounded-lg">
-                    <i class="fa-solid fa-layer-group text-xl text-white"></i>
+                <div class="p-1.5 md:p-2 bg-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-layer-group text-lg md:text-xl text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide">Cardistry Mastery Roadmap</h1>
-                    <p class="text-xs text-slate-400">Daily Training Curriculum & Tracker</p>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wide leading-tight">Cardistry Mastery Roadmap</h1>
+                    <p class="hidden sm:block text-xs text-slate-400">Daily Training Curriculum & Tracker</p>
                 </div>
             </div>
 
@@ -43,28 +45,30 @@
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 mt-6">
-        <!-- Navigation Tabs -->
-        <div class="flex border-b border-slate-700 mb-6 gap-6 text-sm font-semibold text-slate-400 overflow-x-auto whitespace-nowrap no-scrollbar">
-            <button onclick="switchTab('phase1')" id="tab-phase1" class="py-2 px-1 tab-active flex items-center gap-2 hover:text-slate-200 transition">
-                <i class="fa-solid fa-seedling"></i> Phase 1: Foundation (Month 1)
+    <main class="max-w-5xl mx-auto px-4 mt-4 md:mt-6">
+        <!-- Navigation Tabs: bottom bar on phones, top tabs on larger screens -->
+        <nav class="fixed bottom-0 inset-x-0 z-50 grid grid-cols-6 bg-slate-800/95 backdrop-blur border-t border-slate-700 safe-bottom
+                    md:static md:flex md:gap-6 md:mb-6 md:bg-transparent md:backdrop-blur-none md:border-t-0 md:border-b md:pb-0
+                    md:overflow-x-auto md:whitespace-nowrap no-scrollbar font-semibold text-slate-400">
+            <button onclick="switchTab('phase1')" id="tab-phase1" class="tab-active flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
+                <i class="fa-solid fa-seedling text-base md:text-sm"></i><span class="md:hidden">Phase 1</span><span class="hidden md:inline">Phase 1: Foundation</span>
             </button>
-            <button onclick="switchTab('phase2')" id="tab-phase2" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
-                <i class="fa-solid fa-bolt"></i> Phase 2: Intermediate (Months 2-3)
+            <button onclick="switchTab('phase2')" id="tab-phase2" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
+                <i class="fa-solid fa-bolt text-base md:text-sm"></i><span class="md:hidden">Phase 2</span><span class="hidden md:inline">Phase 2: Intermediate</span>
             </button>
-            <button onclick="switchTab('phase3')" id="tab-phase3" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
-                <i class="fa-solid fa-crown"></i> Phase 3: Mastery (Month 4+)
+            <button onclick="switchTab('phase3')" id="tab-phase3" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
+                <i class="fa-solid fa-crown text-base md:text-sm"></i><span class="md:hidden">Phase 3</span><span class="hidden md:inline">Phase 3: Mastery</span>
             </button>
-            <button onclick="switchTab('routine')" id="tab-routine" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
-                <i class="fa-solid fa-list-check"></i> Daily Routine
+            <button onclick="switchTab('routine')" id="tab-routine" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
+                <i class="fa-solid fa-list-check text-base md:text-sm"></i><span class="md:hidden">Routine</span><span class="hidden md:inline">Daily Routine</span>
             </button>
-            <button onclick="switchTab('library')" id="tab-library" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
-                <i class="fa-solid fa-book-open"></i> Move Library
+            <button onclick="switchTab('library')" id="tab-library" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
+                <i class="fa-solid fa-book-open text-base md:text-sm"></i><span class="md:hidden">Library</span><span class="hidden md:inline">Move Library</span>
             </button>
-            <button onclick="switchTab('guide')" id="tab-guide" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
-                <i class="fa-solid fa-circle-question"></i> Tips & FAQ
+            <button onclick="switchTab('guide')" id="tab-guide" class="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 pt-2 pb-1.5 md:py-2 md:px-1 text-[10px] md:text-sm hover:text-slate-200 transition">
+                <i class="fa-solid fa-circle-question text-base md:text-sm"></i><span class="md:hidden">Tips</span><span class="hidden md:inline">Tips & FAQ</span>
             </button>
-        </div>
+        </nav>
 
         <!-- Daily Routine -->
         <div id="section-routine" class="tab-content hidden space-y-6">
@@ -99,7 +103,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
                     <h3 class="font-bold text-slate-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-lightbulb text-amber-400"></i> Practice Tips</h3>
-                    <ul class="text-sm text-slate-300 space-y-1.5 list-disc list-inside">
+                    <ul class="text-sm text-slate-300 space-y-1.5 list-disc pl-5">
                         <li>Practice purely on cardistry for a set amount of time</li>
                         <li>Practice over a bed to catch cards that fall</li>
                         <li>Perform moves slowly and smoothly before speeding up</li>
@@ -114,7 +118,7 @@
                 </div>
                 <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
                     <h3 class="font-bold text-slate-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-hand text-emerald-400"></i> Finger Warm-Ups</h3>
-                    <ul class="text-sm text-slate-300 space-y-1.5 list-disc list-inside">
+                    <ul class="text-sm text-slate-300 space-y-1.5 list-disc pl-5">
                         <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/bJjv998GNZk">Greg Irwin's "Finger Fitness"</a></li>
                         <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/3Do5jB83F4k">Rise Magic's finger exercises</a></li>
                         <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/uJ__zUkJEco">52Kards finger rolls</a></li>
@@ -135,19 +139,19 @@
         <!-- Move Library -->
         <div id="section-library" class="tab-content hidden">
             <p class="text-sm text-slate-400 mb-4">The r/Cardistry community-selected tutorial list. Star moves as you learn them. Paid tutorials are marked <span class="text-amber-300 font-semibold">BUY</span>; please support creators rather than using pirated copies.</p>
-            <div class="flex flex-col sm:flex-row gap-3 mb-4">
-                <div class="relative flex-1">
+            <div class="grid grid-cols-[1fr_1fr_auto] sm:flex gap-2 sm:gap-3 mb-4">
+                <div class="relative col-span-3 sm:flex-1">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
                     <input id="lib-search" type="search" placeholder="Search move or creator…" oninput="renderLibrary()"
                            class="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
                 </div>
-                <select id="lib-cat" onchange="renderLibrary()" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></select>
-                <select id="lib-diff" onchange="renderLibrary()" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                <select id="lib-cat" onchange="renderLibrary()" class="min-w-0 w-full sm:w-auto bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></select>
+                <select id="lib-diff" onchange="renderLibrary()" class="min-w-0 w-full sm:w-auto bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
                     <option value="">All levels</option>
                     <option>Easy</option><option>Intermediate</option><option>Advanced</option>
                 </select>
                 <label class="flex items-center gap-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 cursor-pointer">
-                    <input id="lib-learned" type="checkbox" onchange="renderLibrary()" class="w-4 h-4"> Learned only
+                    <input id="lib-learned" type="checkbox" onchange="renderLibrary()" class="w-4 h-4"><span class="hidden sm:inline">Learned only</span><i class="fa-solid fa-star text-amber-400 sm:hidden" title="Learned only"></i>
                 </label>
             </div>
             <div id="lib-count" class="text-xs text-slate-500 mb-3"></div>
@@ -158,7 +162,7 @@
         <div id="section-guide" class="tab-content hidden space-y-6">
             <div class="bg-slate-800 border border-indigo-500/30 rounded-xl p-6">
                 <h2 class="text-lg font-bold text-indigo-400 mb-3 flex items-center gap-2"><i class="fa-solid fa-flag-checkered"></i> Before You Start</h2>
-                <ol class="text-sm text-slate-300 space-y-2 list-decimal list-inside">
+                <ol class="text-sm text-slate-300 space-y-2 list-decimal pl-5">
                     <li>Cardistry isn't easy, but it's extremely rewarding when you nail it. Take breaks, try other moves, and come back to older ones if you get frustrated.</li>
                     <li>Any deck works, but cheap Bicycle standard decks (~$3) are recommended. You'll wear cards out fast early on.</li>
                     <li>Practice is the best way to improve.</li>
@@ -201,7 +205,7 @@
                 <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
                     <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i> Creating Your Own Moves</h3>
                     <p>Learn the basics first. New ideas often come from mistakes or from a nifty mechanic you expand. Don't force it, and don't worry about originality early on.</p>
-                    <ul class="list-disc list-inside space-y-1 text-xs">
+                    <ul class="list-disc pl-5 space-y-1 text-xs">
                         <li>Matthew Beaudouin: <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/-RfSAB73yh8">Cardistry Con talk</a> · free book <a class="ext" target="_blank" rel="noopener" href="https://www.cardistrytouch.com/explodedprocess/">Exploded Process</a></li>
                         <li>Lotus in Hand creative series: <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/rMcig5-vq8E">1</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=t5jVBZW-L3s">2</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=LCtZphueEWo">3</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/ct5FqOCGQ9k">4</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=XsETUgJ0iOo">5</a></li>
                         <li>Dimitri Arleri: <a class="ext" target="_blank" rel="noopener" href="https://www.cardistrytouch.com/holdmybrain/">Hold my brain</a></li>
@@ -211,7 +215,7 @@
 
                 <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
                     <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-video text-red-400"></i> Filming Your Cardistry</h3>
-                    <ul class="list-disc list-inside space-y-1">
+                    <ul class="list-disc pl-5 space-y-1">
                         <li>Quality over quantity: a short video of great moves beats a long one</li>
                         <li>Do multiple takes so every move is clean</li>
                         <li>Avoid repeating moves (multiple angles are fine)</li>
@@ -325,51 +329,53 @@
         const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         const linkChip = ([label, url]) => {
             const buy = label === 'BUY';
-            return `<a href="${esc(url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded border ${buy ? 'border-amber-500/40 text-amber-300 hover:bg-amber-500/10' : 'border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10'} transition"><i class="fa-solid ${buy ? 'fa-cart-shopping' : 'fa-play'} text-[9px]"></i>${esc(label)}</a>`;
+            return `<a href="${esc(url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs md:text-[11px] font-semibold px-2.5 py-1 md:px-2 md:py-0.5 rounded border ${buy ? 'border-amber-500/40 text-amber-300 hover:bg-amber-500/10' : 'border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10'} transition"><i class="fa-solid ${buy ? 'fa-cart-shopping' : 'fa-play'} text-[9px]"></i>${esc(label)}</a>`;
         };
 
         function renderPhase(phaseKey, containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = `
-                <div class="bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 text-sm rounded-xl px-5 py-3 flex gap-3 items-start">
+                <div class="bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 text-xs sm:text-sm rounded-xl px-4 sm:px-5 py-3 flex gap-3 items-start">
                     <i class="fa-solid fa-calendar-days mt-0.5"></i>
                     <span>${phaseNotes[phaseKey]} <strong class="text-indigo-100">Move on when you can do a move cleanly 10 times in a row, not when the calendar says so.</strong></span>
                 </div>` + roadmapData[phaseKey].map(item => {
+                const done = !!completedDays[item.id];
                 const tutorials = item.moves.map(n => HUB.prog[n - 1]).map(m => `
-                    <div class="flex flex-wrap items-center gap-1.5 text-xs">
-                        <span class="text-slate-400 mr-1"><i class="fa-solid fa-graduation-cap"></i> ${esc(m.name)} tutorials:</span>
-                        ${m.links.map(linkChip).join('')}
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1.5 text-xs">
+                        <span class="text-slate-400 sm:mr-1"><i class="fa-solid fa-graduation-cap"></i> ${esc(m.name)} tutorials:</span>
+                        <div class="flex flex-wrap gap-1.5">${m.links.map(linkChip).join('')}</div>
                     </div>`).join('');
                 return `
-                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-3 flex-wrap">
-                            <span class="bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 font-mono font-bold text-xs px-2.5 py-1 rounded-md">
-                                ${item.when}
-                            </span>
-                            <h3 class="font-bold text-lg text-slate-100">${item.title}</h3>
+                <div class="bg-slate-800 border ${done ? 'border-emerald-500/40' : 'border-slate-700'} rounded-xl p-4 sm:p-5 space-y-2">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <span class="inline-block bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 font-mono font-bold text-[11px] px-2 py-0.5 rounded-md">${item.when}</span>
+                            <h3 class="font-bold text-base sm:text-lg text-slate-100 leading-snug mt-1.5 ${done ? 'line-through decoration-slate-500' : ''}">${item.title}</h3>
                         </div>
-                        <p class="text-sm text-slate-400"><strong class="text-slate-300">Focus:</strong> ${item.focus}</p>
-                        <ul class="text-xs text-slate-300 space-y-1 mt-2 list-disc list-inside">
-                            ${item.exercises.map(ex => `<li>${ex}</li>`).join('')}
-                        </ul>
-                        ${tutorials ? `<div class="pt-2 space-y-1.5">${tutorials}</div>` : ''}
+                        <button onclick="toggleDay('${item.id}')" aria-pressed="${done}"
+                                class="shrink-0 flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition ${done ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-indigo-500'}">
+                            <i class="fa-${done ? 'solid' : 'regular'} fa-circle-check text-base"></i>${done ? 'Done' : 'Mark done'}
+                        </button>
                     </div>
-                    <div class="flex items-center gap-3 self-end md:self-center shrink-0">
-                        <label class="flex items-center gap-2 cursor-pointer bg-slate-900 border border-slate-700 px-4 py-2 rounded-lg hover:border-indigo-500 transition">
-                            <input type="checkbox" ${completedDays[item.id] ? 'checked' : ''}
-                                   onchange="toggleDay('${item.id}')"
-                                   class="w-4 h-4 text-indigo-600 rounded bg-slate-800 border-slate-600 focus:ring-indigo-500">
-                            <span class="text-xs font-semibold text-slate-300">Complete</span>
-                        </label>
-                    </div>
+                    <p class="text-sm text-slate-400"><strong class="text-slate-300">Focus:</strong> ${item.focus}</p>
+                    <ul class="text-xs sm:text-sm text-slate-300 space-y-1 list-disc pl-5">
+                        ${item.exercises.map(ex => `<li>${ex}</li>`).join('')}
+                    </ul>
+                    ${tutorials ? `<div class="pt-1 space-y-2">${tutorials}</div>` : ''}
                 </div>`;
             }).join('');
+        }
+
+        function renderPhases() {
+            renderPhase('phase1', 'section-phase1');
+            renderPhase('phase2', 'section-phase2');
+            renderPhase('phase3', 'section-phase3');
         }
 
         function toggleDay(day) {
             completedDays[day] = !completedDays[day];
             store.set('cardistry_progress', completedDays);
+            renderPhases();
             updateProgress();
         }
 
@@ -436,14 +442,13 @@
             document.querySelectorAll('button[id^="tab-"]').forEach(btn => btn.classList.remove('tab-active'));
             document.getElementById(`section-${tab}`).classList.remove('hidden');
             document.getElementById(`tab-${tab}`).classList.add('tab-active');
+            window.scrollTo(0, 0);
         }
 
         // Initialize
         document.getElementById('lib-cat').innerHTML = '<option value="">All categories</option>' +
             HUB.cats.map((c, i) => `<option value="${i}">${esc(c)}</option>`).join('');
-        renderPhase('phase1', 'section-phase1');
-        renderPhase('phase2', 'section-phase2');
-        renderPhase('phase3', 'section-phase3');
+        renderPhases();
         renderLibrary();
         updateProgress();
     </script>

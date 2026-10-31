@@ -40,7 +40,10 @@
                     <div id="overall-progress" class="bg-indigo-500 h-full transition-all duration-500 w-0"></div>
                     <span id="progress-text" class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-slate-200">0% Complete</span>
                 </div>
-                <div id="learned-text" class="text-[10px] text-slate-400 text-right">0 library moves learned</div>
+                <div class="flex items-center justify-between gap-2 text-[11px]">
+                    <div id="account" class="min-w-0 truncate"></div>
+                    <div id="learned-text" class="text-[10px] text-slate-400 text-right shrink-0">0 library moves learned</div>
+                </div>
             </div>
         </div>
     </header>
@@ -374,7 +377,7 @@
 
         function toggleDay(day) {
             completedDays[day] = !completedDays[day];
-            store.set('cardistry_progress', completedDays);
+            persist();
             renderPhases();
             updateProgress();
         }
@@ -432,9 +435,44 @@
         function toggleLearned(i) {
             const name = HUB.lib[i].name;
             learned[name] = !learned[name];
-            store.set('cardistry_learned', learned);
+            persist();
             renderLibrary();
             updateProgress();
+        }
+
+        // Progress is cached in localStorage and, when signed in, synced to Firestore
+        // (stored as arrays of ids/names so keys like "29+" or "Inso Iso." are safe).
+        const trueKeys = obj => Object.keys(obj).filter(k => obj[k]);
+        const toFlags = arr => Object.fromEntries((arr || []).map(k => [k, true]));
+
+        function getLocalData() {
+            return { progress: trueKeys(completedDays), learned: trueKeys(learned) };
+        }
+
+        function persist() {
+            store.set('cardistry_progress', completedDays);
+            store.set('cardistry_learned', learned);
+            if (window.cloudSave) window.cloudSave(getLocalData());
+        }
+
+        function applyCloudData(data) {
+            completedDays = toFlags(data.progress);
+            learned = toFlags(data.learned);
+            store.set('cardistry_progress', completedDays);
+            store.set('cardistry_learned', learned);
+            renderPhases();
+            renderLibrary();
+            updateProgress();
+        }
+
+        function renderAccount(user) {
+            const el = document.getElementById('account');
+            if (user === undefined) { el.innerHTML = ''; return; }
+            el.innerHTML = user
+                ? `<span class="text-emerald-300" title="${esc(user.email || '')}"><i class="fa-solid fa-cloud"></i> Synced</span>
+                   <span class="text-slate-600 mx-1">·</span>
+                   <button onclick="cloudSignOut()" class="text-slate-400 hover:text-slate-200 py-1">Sign out</button>`
+                : `<button onclick="cloudSignIn()" class="text-indigo-300 hover:text-indigo-200 py-1"><i class="fa-brands fa-google"></i> Sign in to sync</button>`;
         }
 
         function switchTab(tab) {
@@ -451,6 +489,56 @@
         renderPhases();
         renderLibrary();
         updateProgress();
+    </script>
+
+    <script type="module">
+        // Cloud sync via Firebase (Google sign-in + Firestore).
+        // Web app config from `firebase apps:sdkconfig WEB` (public by design; Firestore rules protect the data).
+        // Set to null to run local-only.
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyAw623G19IEApQIuwgwnekxjGv7wLdBUW8",
+            authDomain: "cardistry-site-9bcdd.firebaseapp.com",
+            projectId: "cardistry-site-9bcdd",
+            storageBucket: "cardistry-site-9bcdd.firebasestorage.app",
+            messagingSenderId: "390340014283",
+            appId: "1:390340014283:web:9f9c3fa2c8ed0abbc62b4e"
+        };
+
+        if (FIREBASE_CONFIG) {
+            const V = '10.12.2';
+            const { initializeApp } = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
+            const { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } =
+                await import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`);
+            const { getFirestore, doc, getDoc, setDoc, onSnapshot, serverTimestamp } =
+                await import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`);
+
+            const app = initializeApp(FIREBASE_CONFIG);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+            const provider = new GoogleAuthProvider();
+            let userRef = null;
+            let unsubscribe = null;
+
+            window.cloudSignIn = () => signInWithPopup(auth, provider).catch(e => {
+                if (e.code === 'auth/popup-blocked') return signInWithRedirect(auth, provider);
+                if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') alert('Sign-in failed: ' + e.message);
+            });
+            window.cloudSignOut = () => signOut(auth);
+            window.cloudSave = data => {
+                if (userRef) setDoc(userRef, { ...data, updatedAt: serverTimestamp() }).catch(e => console.error('Sync failed', e));
+            };
+
+            onAuthStateChanged(auth, async user => {
+                if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+                userRef = user ? doc(db, 'users', user.uid) : null;
+                renderAccount(user);
+                if (!user) return;
+                // First sign-in ever: seed the cloud with this device's progress. After that the cloud is the source of truth.
+                const snap = await getDoc(userRef);
+                if (!snap.exists()) window.cloudSave(getLocalData());
+                unsubscribe = onSnapshot(userRef, s => { if (s.exists()) applyCloudData(s.data()); });
+            });
+        }
     </script>
 </body>
 </html>

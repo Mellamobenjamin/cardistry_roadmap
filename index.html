@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardistry Training Roadmap & Daily Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='8' width='30' height='44' rx='5' fill='%234f46e5' transform='rotate(-14 23 30)'/%3E%3Cg transform='rotate(10 38 34)'%3E%3Crect x='23' y='12' width='30' height='44' rx='5' fill='%23fff' stroke='%234f46e5' stroke-width='3'/%3E%3Cpath d='M38 22c-7 8-11 11-11 16a5.5 5.5 0 0 0 10 3l-2 6h6l-2-6a5.5 5.5 0 0 0 10-3c0-5-4-8-11-16z' fill='%231e1b4b'/%3E%3C/g%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .tab-active {
+            border-bottom: 2px solid #6366f1;
+            color: #818cf8 !important;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { scrollbar-width: none; }
+        a.ext { color: #a5b4fc; }
+        a.ext:hover { color: #c7d2fe; text-decoration: underline; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans pb-12">
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-layer-group text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">Cardistry Mastery Roadmap</h1>
+                    <p class="text-xs text-slate-400">Daily Training Curriculum & Tracker</p>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="w-full sm:w-64 space-y-1">
+                <div class="bg-slate-700 rounded-full h-4 overflow-hidden relative">
+                    <div id="overall-progress" class="bg-indigo-500 h-full transition-all duration-500 w-0"></div>
+                    <span id="progress-text" class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-slate-200">0% Complete</span>
+                </div>
+                <div id="learned-text" class="text-[10px] text-slate-400 text-right">0 library moves learned</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-6">
+        <!-- Navigation Tabs -->
+        <div class="flex border-b border-slate-700 mb-6 gap-6 text-sm font-semibold text-slate-400 overflow-x-auto whitespace-nowrap no-scrollbar">
+            <button onclick="switchTab('phase1')" id="tab-phase1" class="py-2 px-1 tab-active flex items-center gap-2 hover:text-slate-200 transition">
+                <i class="fa-solid fa-seedling"></i> Phase 1: Foundation (Month 1)
+            </button>
+            <button onclick="switchTab('phase2')" id="tab-phase2" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-bolt"></i> Phase 2: Intermediate (Months 2-3)
+            </button>
+            <button onclick="switchTab('phase3')" id="tab-phase3" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-crown"></i> Phase 3: Mastery (Month 4+)
+            </button>
+            <button onclick="switchTab('routine')" id="tab-routine" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-list-check"></i> Daily Routine
+            </button>
+            <button onclick="switchTab('library')" id="tab-library" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-book-open"></i> Move Library
+            </button>
+            <button onclick="switchTab('guide')" id="tab-guide" class="py-2 px-1 hover:text-slate-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-circle-question"></i> Tips & FAQ
+            </button>
+        </div>
+
+        <!-- Daily Routine -->
+        <div id="section-routine" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800 border border-indigo-500/30 rounded-xl p-6 shadow-xl">
+                <h2 class="text-lg font-bold text-indigo-400 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-stopwatch"></i> Standard 20-Minute Daily Structure
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                        <div class="text-xs text-indigo-400 font-bold mb-1">00:00 - 02:00</div>
+                        <div class="font-semibold text-slate-200">Warm-Up</div>
+                        <div class="text-xs text-slate-400 mt-1">A few riffle shuffles, swing cuts & ribbon spreads to loosen fingers (and keep breaking in the deck).</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                        <div class="text-xs text-indigo-400 font-bold mb-1">02:00 - 12:00</div>
+                        <div class="font-semibold text-slate-200">Core Drill</div>
+                        <div class="text-xs text-slate-400 mt-1">Pick ONE focus move. Slow and smooth first, 25-30 reps before adding speed.</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                        <div class="text-xs text-indigo-400 font-bold mb-1">12:00 - 17:00</div>
+                        <div class="font-semibold text-slate-200">Maintenance</div>
+                        <div class="text-xs text-slate-400 mt-1">Drill past moves (Charlier, Fans, Springs) to maintain muscle memory.</div>
+                    </div>
+                    <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                        <div class="text-xs text-indigo-400 font-bold mb-1">17:00 - 20:00</div>
+                        <div class="font-semibold text-slate-200">Stress Test</div>
+                        <div class="text-xs text-slate-400 mt-1">Practice without looking at your hands while watching TV/talking.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h3 class="font-bold text-slate-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-lightbulb text-amber-400"></i> Practice Tips</h3>
+                    <ul class="text-sm text-slate-300 space-y-1.5 list-disc list-inside">
+                        <li>Practice purely on cardistry for a set amount of time</li>
+                        <li>Practice over a bed to catch cards that fall</li>
+                        <li>Perform moves slowly and smoothly before speeding up</li>
+                        <li>Keep a deck in your hands to build muscle memory</li>
+                        <li>If a grip is uncomfortable, just hold cards in it to get used to it</li>
+                        <li>Focus on a small set of moves at a time</li>
+                        <li>Do cardistry with your idle hand during the day</li>
+                        <li>Try using fewer cards for tricky moves</li>
+                        <li>Take breaks; come back to frustrating moves later</li>
+                    </ul>
+                    <p class="text-xs text-slate-400 mt-3">More: <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=38jOh_FuwyE">Lotus in Hand on practicing efficiently</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/PWEEtQWEllE">Teo Chun Chieh on improving</a></p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h3 class="font-bold text-slate-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-hand text-emerald-400"></i> Finger Warm-Ups</h3>
+                    <ul class="text-sm text-slate-300 space-y-1.5 list-disc list-inside">
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/bJjv998GNZk">Greg Irwin's "Finger Fitness"</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/3Do5jB83F4k">Rise Magic's finger exercises</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/uJ__zUkJEco">52Kards finger rolls</a></li>
+                        <li>Or just warm up with basic moves until your hands feel loose</li>
+                    </ul>
+                    <div class="mt-4 text-xs bg-rose-500/10 border border-rose-500/30 text-rose-200 rounded-lg p-3">
+                        <i class="fa-solid fa-triangle-exclamation"></i> A light strain is normal. If you feel real pressure or pain, stop for a while. If it comes back, see a doctor.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phases -->
+        <div id="section-phase1" class="tab-content space-y-4"></div>
+        <div id="section-phase2" class="tab-content hidden space-y-4"></div>
+        <div id="section-phase3" class="tab-content hidden space-y-4"></div>
+
+        <!-- Move Library -->
+        <div id="section-library" class="tab-content hidden">
+            <p class="text-sm text-slate-400 mb-4">The r/Cardistry community-selected tutorial list. Star moves as you learn them. Paid tutorials are marked <span class="text-amber-300 font-semibold">BUY</span>; please support creators rather than using pirated copies.</p>
+            <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                    <input id="lib-search" type="search" placeholder="Search move or creator…" oninput="renderLibrary()"
+                           class="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                </div>
+                <select id="lib-cat" onchange="renderLibrary()" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"></select>
+                <select id="lib-diff" onchange="renderLibrary()" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                    <option value="">All levels</option>
+                    <option>Easy</option><option>Intermediate</option><option>Advanced</option>
+                </select>
+                <label class="flex items-center gap-2 text-sm text-slate-300 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 cursor-pointer">
+                    <input id="lib-learned" type="checkbox" onchange="renderLibrary()" class="w-4 h-4"> Learned only
+                </label>
+            </div>
+            <div id="lib-count" class="text-xs text-slate-500 mb-3"></div>
+            <div id="lib-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+        </div>
+
+        <!-- Tips & FAQ -->
+        <div id="section-guide" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800 border border-indigo-500/30 rounded-xl p-6">
+                <h2 class="text-lg font-bold text-indigo-400 mb-3 flex items-center gap-2"><i class="fa-solid fa-flag-checkered"></i> Before You Start</h2>
+                <ol class="text-sm text-slate-300 space-y-2 list-decimal list-inside">
+                    <li>Cardistry isn't easy, but it's extremely rewarding when you nail it. Take breaks, try other moves, and come back to older ones if you get frustrated.</li>
+                    <li>Any deck works, but cheap Bicycle standard decks (~$3) are recommended. You'll wear cards out fast early on.</li>
+                    <li>Practice is the best way to improve.</li>
+                    <li><strong class="text-slate-100">Your hands are NOT too small.</strong> Plenty of great cardists have small hands, so keep at it!</li>
+                    <li>Don't worry about creating moves or claiming originality yet. Have fun learning the basics.</li>
+                </ol>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-diamond text-rose-400"></i> Which Deck?</h3>
+                    <p>Start with standard Bicycle decks. If you're sticking with it, a brick of 12 decks runs ~$16 at Costco or Amazon.</p>
+                    <p>Use <strong>paper, poker-size</strong> cards. Plastic or bridge-size cards make some moves harder and build bad habits.</p>
+                    <p>Other good cheap handlers: <strong>Aladdin 1001, Tally-Ho, Copag 310, Aviator</strong>. Every deck handles differently, so try a few. Ultimately the best deck is the one you like most.</p>
+                    <p class="text-xs text-slate-400">Where to buy: <a class="ext" target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/12p0hLGCEb4Mk3WyhFuF5cWsKztgak5YNquwpYC32Ask">online shops list</a> · sell via eBay or <a class="ext" target="_blank" rel="noopener" href="http://www.reddit.com/r/PlayingCardsMarket">r/PlayingCardsMarket</a></p>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-fire text-orange-400"></i> Breaking In a Deck</h3>
+                    <p>Riffle shuffles, faro shuffles, swing cuts, LePaul spreads, and springs all break in a deck. Do them in <strong>both directions</strong> to keep the deck straight.</p>
+                    <p class="text-xs text-slate-400">Guides: <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/CxgKj8O8Ckc">Lotus in Hand</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/zjJkTcCQ37Y">52Kards</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/TQAl5dPC34w?t=4m38s">Rise Magic</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.reddit.com/r/cardistry/comments/7p8uxb/how_to_make_good_fans_with_a_deck_of_cards_guide/">_th3truth_'s conditioning & fanning guide</a> · <a class="ext" target="_blank" rel="noopener" href="https://playingcarddecks.com/blogs/all-in/breaking-in-a-new-deck-why-and-how">EndersGame article</a></p>
+                    <p><strong>When to swap?</strong> When it's grimy, clumps up, or stops springing back to shape after springs/LePaul spreads.</p>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-sky-400"></i> Fixing Problem Cards</h3>
+                    <p><strong>"Click" / warped cards:</strong> usually humidity or temperature changes. Press under heavy objects, store in a card clip, or faro half the deck face-up into face-down and box it with a couple of extra cards to keep it tight. Springs and LePaul spreads help wear the click out.</p>
+                    <p><strong>Dented corners:</strong> <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/-NKAggLpW6c">Figure52's fix</a>.</p>
+                    <p><strong>Clumping / won't fan:</strong> leave the deck in its box for a couple of days. Still bad? Try fanning powder (<a class="ext" target="_blank" rel="noopener" href="https://youtu.be/dLE0bGjUXY8">Jaspas</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/CxgKj8O8Ckc?t=89">Lotus in Hand</a>).</p>
+                    <p><strong>Care:</strong> clean hands, no dirty or humid spots, avoid drops. <a class="ext" target="_blank" rel="noopener" href="https://playingcarddecks.com/blogs/all-in/24-tips-for-making-playing-cards-last">24 tips for making cards last</a>.</p>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-circle-question text-violet-400"></i> Stuck on a Move?</h3>
+                    <p>Practice more and re-watch the tutorial by the <em>original creator</em>. Then search <a class="ext" target="_blank" rel="noopener" href="https://www.reddit.com/r/cardistry/">r/Cardistry</a> or ask the <a class="ext" target="_blank" rel="noopener" href="https://discordapp.com/invite/jw9T6Pf">Cardistry Discord</a>. When posting, explain the part you're stuck on and include a video.</p>
+                    <p><strong>Which hand?</strong> Whichever's comfortable. Most tutorials put the deck in the left hand (for righties). To mirror a video, use a browser extension or <a class="ext" target="_blank" rel="noopener" href="https://www.vlchelp.com/rotating-video-in-vlc-media-player/">VLC's flip option</a>.</p>
+                    <p><strong>Do I have to learn every basic?</strong> No, pick what you like. Learning them all does make later moves and original cuts easier.</p>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i> Creating Your Own Moves</h3>
+                    <p>Learn the basics first. New ideas often come from mistakes or from a nifty mechanic you expand. Don't force it, and don't worry about originality early on.</p>
+                    <ul class="list-disc list-inside space-y-1 text-xs">
+                        <li>Matthew Beaudouin: <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/-RfSAB73yh8">Cardistry Con talk</a> · free book <a class="ext" target="_blank" rel="noopener" href="https://www.cardistrytouch.com/explodedprocess/">Exploded Process</a></li>
+                        <li>Lotus in Hand creative series: <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/rMcig5-vq8E">1</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=t5jVBZW-L3s">2</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=LCtZphueEWo">3</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/ct5FqOCGQ9k">4</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=XsETUgJ0iOo">5</a></li>
+                        <li>Dimitri Arleri: <a class="ext" target="_blank" rel="noopener" href="https://www.cardistrytouch.com/holdmybrain/">Hold my brain</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://youtu.be/QqfLFPXDIbg">Patrick Varnavas interview</a> · <a class="ext" target="_blank" rel="noopener" href="https://www.reddit.com/r/cardistry/comments/6n8h9r/creative_block_cures/">Creative block cures</a></li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-3 text-sm text-slate-300">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2"><i class="fa-solid fa-video text-red-400"></i> Filming Your Cardistry</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Quality over quantity: a short video of great moves beats a long one</li>
+                        <li>Do multiple takes so every move is clean</li>
+                        <li>Avoid repeating moves (multiple angles are fine)</li>
+                        <li>Good lighting; cards are the clear focus; keep moves in frame</li>
+                        <li>Clean or interesting location (+1 for outdoors)</li>
+                        <li>Music that fits the pace (+1 if moves sync to it)</li>
+                    </ul>
+                    <p class="text-xs text-slate-400"><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FDFBGGFvFSQ">Lotus in Hand</a> · <a class="ext" target="_blank" rel="noopener" href="https://youtu.be/qJWOjMTgOjo">Jaspas</a></p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-amber-500/30 rounded-xl p-6 text-sm text-slate-300 space-y-2">
+                <h3 class="font-bold text-amber-300 flex items-center gap-2"><i class="fa-solid fa-scale-balanced"></i> Ethics</h3>
+                <p>Most cardistry tutorials are free from the original creators. Some creators make a living from it, so when a tutorial is paid, <strong>buy it</strong> instead of using a pirated or "free" knock-off. Never claim a move you didn't create, and don't make a tutorial for someone else's move without their explicit permission.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h3 class="font-bold text-slate-100 mb-3"><i class="fa-brands fa-youtube text-red-500"></i> Tutorial Channels</h3>
+                    <ul class="space-y-1">
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/user/SchoolOfCardistry">School of Cardistry</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCErKkHyrzaxD1PzaebCCoZw">Lotus in Hand</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCj7QTSVnliwlcs8Z3IbgDGg">Best Cardist Alive</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCfIH2al0lYgAg9S3OEjDOLQ">Cardistry Touch</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/user/dealersgrip">Dealersgrip</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCtIHx88KZWdbWf30lAZEkKg">di.cardistry</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/user/zachmonky">Fontaine Cards</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCiFU_korxXCF9PR91Wq0_Kg">Anyone Worldwide</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLYlPrxtF5YHE03cfXUEEluf7793fi9LgN">Zomb Tien's 1k+ tutorial playlist</a></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h3 class="font-bold text-slate-100 mb-3"><i class="fa-solid fa-users text-sky-400"></i> Community</h3>
+                    <ul class="space-y-1">
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.reddit.com/r/cardistry/">r/Cardistry</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://discordapp.com/invite/jw9T6Pf">Cardistry Discord</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.instagram.com/bestcardistalive">@bestcardistalive</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.reddit.com/r/cardistry/wiki/cardists-near-you">Cardists near you</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.reddit.com/r/playingcards">r/playingcards</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://randomcardistry.netlify.app/">Random Cardistry Move generator</a></li>
+                        <li><a class="ext" target="_blank" rel="noopener" href="https://www.cardistrytouch.com/cardfans/">Card fan simulator</a></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+                    <h3 class="font-bold text-slate-100 mb-3"><i class="fa-solid fa-book text-emerald-400"></i> Books</h3>
+                    <ul class="space-y-1 text-slate-300">
+                        <li>Dimitri Arleri: Hold my brain</li>
+                        <li>Jerry Cestkowski: Encyclopedia of Playing Card Flourishes</li>
+                        <li>Matthew Beaudouin: Exploded Process</li>
+                        <li>Nikolaj Pedersen: New York Notes, Take a Break</li>
+                        <li>Oliver Sogard: Rectangular Thoughts</li>
+                        <li>Tobias Levin: Threedom, OH Ideas, Cardistry from Time to Time</li>
+                        <li>Jaspas: CoSEA Lecture Notes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs text-slate-500 mt-10 text-center">
+            Move list, tutorials & tips adapted from the
+            <a class="ext" target="_blank" rel="noopener" href="https://docs.google.com/document/d/1Drp8ktfT4kgFEFGM7U67Oj45EHPj6QzJEJEHyEcNwNY">Cardistry Hub</a>
+            (r/Cardistry Beginner's Guide by /u/LogicRevolution).
+        </p>
+    </main>
+
+    <script>
+        // Cardistry Hub data: beginner progression, categories, tutorial library
+        const HUB = {"prog":[{"n":1,"name":"Basic Grips","desc":"Common ways of holding a deck","links":[["Lotus","https://youtu.be/bt0RumRuwGQ"],["SoC","https://youtu.be/e8PAMLgLcfY"],["Fontaine","https://youtu.be/ocVFnpsNWpI"]]},{"n":2,"name":"Riffle Shuffle","desc":"Useful for breaking in a deck","links":[["Lotus","https://youtu.be/8eN1FIVVU4Q"],["SoC","https://youtu.be/f6ZD1lDbW3M"]]},{"n":3,"name":"Charlier Cut","desc":"Staple one-hand cut used in many moves","links":[["Lotus","https://youtu.be/BNC_DD9XccI"],["SoC","https://youtu.be/YdBdW0OlLpQ"],["Fontaine","https://youtu.be/43DQqBDSkow"]]},{"n":4,"name":"Swing Cut","desc":"Common way to make a packet of cards","links":[["Fontaine","https://youtu.be/-hvHFx9J2IU"],["SoC","https://youtu.be/Rn5lmEQej_k"]]},{"n":5,"name":"Swivel Cut","desc":"Another way to make a packet of cards","links":[["SoC","https://youtu.be/Rn5lmEQej_k?t=45"]]},{"n":6,"name":"Revolution Cut","desc":"Harder charlier cut that revolves a packet","links":[["Lotus","https://youtu.be/MVsjBiCVeTE"],["Virts","https://youtu.be/OulHu0hwuTQ"],["DG Tips","https://youtu.be/2_KndJznY5A"],["Rise Tips","https://youtu.be/4modjrvBopw"]]},{"n":7,"name":"Spring","desc":"Shoots a stream of cards; iconic move","links":[["Virts","https://youtu.be/sE1P7fINjX8"],["Lotus","https://youtu.be/YJX9sUTwUlg"],["Fontaine","https://youtu.be/XLRxqR9Oe8s"],["SoC","https://youtu.be/VhWmAgi5MRE"]]},{"n":8,"name":"Dribble","desc":"Smooth stream of dropping cards","links":[["Lotus","https://youtu.be/TpJhxz-z17g"],["Fontaine","https://youtu.be/ZLIQcpGLqlc"],["SoC","https://youtu.be/OhpGcjCzL5g"]]},{"n":9,"name":"Thumb Fan","desc":"Basic circular display of cards","links":[["Lotus","https://youtu.be/XFIQk2LiKD0"],["DG Tips","https://youtu.be/fZqLvpgyePY"],["Fontaine","https://youtu.be/1-7JE3-uiFM"],["SoC","https://youtu.be/2Rxky5ilkSo"]]},{"n":10,"name":"Smear Fan","desc":"One-handed simple fan","links":[["Lotus","https://youtu.be/1E7t2BUM2rw"],["SoC","https://youtu.be/8MF9m9A_Cpg"],["Fontaine","https://youtu.be/7Ld1yztVSRA"]]},{"n":11,"name":"Ribbon Spread","desc":"Displaying a deck across a table","links":[["Lotus","https://youtu.be/-w3RX2VELkk"],["SoC","https://youtu.be/0gGONQKuM5s"]]},{"n":12,"name":"Scissor Cut","desc":"Cut that moves packets length-wise","links":[["SoC","https://youtu.be/1E0n6kamKFo"],["Lotus","https://youtu.be/z9YkyM0hG3M"]]},{"n":13,"name":"Hot Shot Cut","desc":"Simple one-handed card shot/aerial","links":[["Lotus","https://youtu.be/aTV-TTI3ZPw"],["Rise","https://youtu.be/J5zyMSEvNv4"],["SoC","https://youtu.be/ENTgs9pxzEE"]]},{"n":14,"name":"Five Faces of Sybil","desc":"Classic two-handed cut and display","links":[["Lotus","https://youtu.be/s6F3Em7McOs"],["DG Tips","https://youtu.be/TB5DRyTPVZE"],["SoC","https://youtu.be/JHQ1ToMV4Ro"]]},{"n":15,"name":"WERM","desc":"Another simple two-handed cut + display","links":[["Buck","https://youtu.be/LywWQm0ivUE"]]},{"n":16,"name":"Faro Shuffle","desc":"Knacky starting mechanic for moves","links":[["Lotus","https://youtu.be/A-tSm8g-_pw"],["Rise","https://youtu.be/sBfU6MS5-vY?t=88"],["SoC","https://youtu.be/T0yO2n8x_DI"]]}],"cats":["Iconic Moves","One-Handed Cuts","Two-Handed Cuts","Aerials","Fans","Isolations / Twirls / 1-Card Moves","Combo Moves","Misc. Moves"],"lib":[{"name":"Anaconda","by":"Bone Ho","diff":"Intermediate","cat":0,"links":[["LINK","https://youtu.be/iS8gCWPPPk4"]]},{"name":"Bloom","by":"Zach Mueller","diff":"Easy","cat":0,"links":[["PREVIEW","https://youtu.be/GeGs2a0MUds"]]},{"name":"Bullet","by":"Andrei Jikh","diff":"Intermediate","cat":0,"links":[["TIPS","https://youtu.be/XJoLhxAdBGg?t=14m49s"],["BUY","https://store.theory11.com/products/genesis-by-andrei-jikh"]]},{"name":"Cascade","by":"Classic Move","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/H0uZAZ537kI"],["LINK","https://youtu.be/sBfU6MS5-vY?t=6m"]]},{"name":"Dump","by":"Frank Sung","diff":"Easy","cat":0,"links":[["PREVIEW","https://youtu.be/ffb5gqmkPQo"],["BUY","http://gum.co/dumptut"]]},{"name":"Flicker Shot","by":"Huron Low","diff":"Intermediate","cat":0,"links":[["PREVIEW","https://youtu.be/t-hcHmTNy7c"],["BUY","https://www.thevirts.com"]]},{"name":"Friffle","by":"Oliver Sogard","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/dt0UrHFAoZ8"]]},{"name":"LePaul Spread","by":"Paul LePaul","diff":"Intermediate","cat":0,"links":[["LINK","https://youtu.be/eUqkN0N5w6M"],["LINK","https://youtu.be/pT5BrGDe_Ts"]]},{"name":"Mockingbird","by":"Daren Yeow","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=1m20s"],["LINK","https://youtu.be/Hb4snFAFzTw"]]},{"name":"Pandora","by":"Dan and Dave Buck","diff":"Advanced","cat":0,"links":[["LINK","https://youtu.be/o6HNsuFaETA"],["BUY","https://www.vanishingincmagic.com/artofmagic/products/pandora-dan-dave/"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"Rainbow Spring","by":"Jaspas","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/_Wk3imz44qI?t=37"]]},{"name":"Ripple","by":"Kenneth Aidan Foo","diff":"Intermediate","cat":0,"links":[["PREVIEW","https://youtu.be/0EoDKXdjpAY?t=20s"],["BUY","https://the-new-deck-order.myshopify.com/collections/all/products/ripple-4"]]},{"name":"Spring","by":"Classic Move","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/sE1P7fINjX8"],["LINK","https://youtu.be/YJX9sUTwUlg"],["LINK","https://youtu.be/XLRxqR9Oe8s"]]},{"name":"Squeeze","by":"Daren Yeow","diff":"Intermediate","cat":0,"links":[["PREVIEW","https://youtu.be/8BvO_x6tuQ8"],["TIPS","https://youtu.be/OE4La-L15VE"],["BUY","https://www.thevirts.com"]]},{"name":"Under Pressure","by":"Classic Move","diff":"Easy","cat":0,"links":[["LINK","https://youtu.be/MoEZUNV9DWY?t=6m45s"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"V-Cascade","by":"Daren Yeow","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/I0KSaqiv5C0?t=2m49s"]]},{"name":"Waterwheel","by":"Daren Yeow","diff":"Advanced","cat":0,"links":[["PREVIEW","https://youtu.be/S7kG641iA_g?t=2m33s"]]},{"name":"Castiron","by":"Matt Samuel","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/ztuXhY-0ifY"]]},{"name":"Charlier Triangle","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/W1_k50kNLw4"]]},{"name":"Cobra Cut","by":"De'vo","diff":"Advanced","cat":1,"links":[["PREVIEW","https://youtu.be/4AQpMm_NBXg"],["TIPS","https://www.instagram.com/p/BPgogg-Ayqh/"]]},{"name":"Index Cut","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/RgZPZ1WR2f0"]]},{"name":"Judo-Flip","by":"Franco Pascali","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/XERJh5xlBps"]]},{"name":"Knuckle Cut","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/bGBidZeAWXo"]]},{"name":"Kroma Cuts","by":"Jano Slap","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/789xKHZN6Pg"]]},{"name":"Kryptonite","by":"Dan and Dave Buck","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/o6HNsuFaETA?t=177"]]},{"name":"L-Cuts","by":"Jerry Cestkowski","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/5fwh3_FNeR4"]]},{"name":"Mantra","by":"Tobias Levin","diff":"Advanced","cat":1,"links":[["PREVIEW","https://youtu.be/azLXnbQ0Ok8"],["TIPS","https://youtu.be/_gOrnMy9Zm4?t=311"]]},{"name":"Muse Cut","by":"Henrik Forberg","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/bpKbyxk78yw"]]},{"name":"OH Shuffle","by":"Jerry Cestkowski","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/TlfbxprcyMo"]]},{"name":"OHW","by":"Birger Karlsson","diff":"Intermediate","cat":1,"links":[["PREVIEW","https://youtu.be/NMY4AXUMGwg?t=24s"],["BUY","https://www.artofmagic.com/products/cardistry-con-2017-bundle"]]},{"name":"Retrigger","by":"Oliver Sogard","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/5MiqDxD_SJg"]]},{"name":"Rev 2","by":"Brian Tudor","diff":"Easy","cat":1,"links":[]},{"name":"Rubix","by":"Buseong Na","diff":"Advanced","cat":1,"links":[["LINK","https://youtu.be/Ac7V6l0zpbw"]]},{"name":"Sange","by":"Daniel Lin","diff":"Intermediate","cat":1,"links":[["LINK","https://youtu.be/fwD8PkEqyew"]]},{"name":"Thumb Cut","by":"Classic Move","diff":"Easy","cat":1,"links":[["LINK","https://youtu.be/f10VOtEsLZQ"],["LINK","https://youtu.be/p8yYTy-5cFo"]]},{"name":"Trigger","by":"Nikolaj Pedersen","diff":"Intermediate","cat":1,"links":[]},{"name":"TRIST","by":"Birger Karlsson","diff":"Advanced","cat":1,"links":[["LINK","https://youtu.be/9Mnh8dTyTsQ"]]},{"name":"V-Cuts","by":"Tobias Levin","diff":"Advanced","cat":1,"links":[["LINK","https://youtu.be/PPMUpCCqNiI?t=473"]]},{"name":"Atrium","by":"Nobutaka Oi","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/d4IAYfh5xyg"]]},{"name":"Barolo 2","by":"Nikolaj Pedersen","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/PPMUpCCqNiI?t=251"]]},{"name":"Boooom","by":"Lun Zi","diff":"Advanced","cat":2,"links":[["LINK","https://youtu.be/KgOz2Qm1m1w"]]},{"name":"Bop","by":"Nguyen Hoang Duy","diff":"Easy","cat":2,"links":[["LINK","https://www.youtube.com/watch?v=l_UkBBqE3UE"]]},{"name":"Collapsybil","by":"Beckett Behel","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/_GrL91FR3iE"]]},{"name":"Crawl","by":"Franco Pascali","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/BpgQoQlnw0U"]]},{"name":"Dunsmuir","by":"Daniel Lin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/vvPeJw3t2aE"]]},{"name":"Fission","by":"Yang Chan","diff":"Advanced","cat":2,"links":[["PREVIEW","https://www.instagram.com/p/BjNyOtfFgdd/"]]},{"name":"Flip Phone","by":"Tobias Levin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/PPMUpCCqNiI?t=401"]]},{"name":"Hook","by":"Zach Mueller","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/jrVvVokplQ0"]]},{"name":"Lacoste 2","by":"Patrick Varnavas","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/HpjMy2CoQjM"]]},{"name":"Looper","by":"Ladislas Toubart","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/p52V7plGzQ0"]]},{"name":"Madonna","by":"Dan and Dave Buck","diff":"Intermediate","cat":2,"links":[]},{"name":"Maverick","by":"Oliver Sogard","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/v_Geze0Wpzw"],["BUY","https://dealersgrip.com/maverick/"]]},{"name":"Mocking God","by":"Duy Nguyen","diff":"Advanced","cat":2,"links":[["PREVIEW","https://youtu.be/1wfdb2HWsdU?t=29s"],["BUY","http://dicardistry.com/#!/tutorials/premium/7"]]},{"name":"Mockingbird","by":"Daren Yeow","diff":"Advanced","cat":2,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=1m20s"],["LINK","https://youtu.be/Hb4snFAFzTw"]]},{"name":"Molecule Cut","by":"Dan and Dave Buck","diff":"Easy","cat":2,"links":[["PREVIEW","https://store.theory11.com/products/molecule-cut-by-dananddave"],["BUY","https://store.theory11.com/products/molecule-cut-by-dananddave"]]},{"name":"Oddstyle 01","by":"Jaspas","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/oy2v7EnJXeg"]]},{"name":"Padlock","by":"@martin_cardist","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/alCdn_oBcoc"]]},{"name":"Pandora","by":"Dan and Dave Buck","diff":"Advanced","cat":2,"links":[["LINK","https://youtu.be/o6HNsuFaETA"],["BUY","https://www.artofmagic.com/products/pandora"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"Peach","by":"Frank Sung","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/Jc_GD8KONYo"]]},{"name":"Phaced","by":"Tobias Levin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/-YvPnQFHIK4"]]},{"name":"Pinball","by":"Harrison Mace","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/T3KO1QNf9YU"]]},{"name":"Skater Cut/Kickflip","by":"Joey Burton & Dan and Dave Buck","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/yCY2SOw4ZuI"]]},{"name":"Snake Charmer","by":"Kevin Ho","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/-sQFQEIuiTA"]]},{"name":"Spin Doctor","by":"Nikolaj Pedersen","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/VqAOhd3quYg?t=40s"]]},{"name":"Spin Sybil","by":"Jaspas","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/uOFnZ8fzowE"]]},{"name":"Squeeze","by":"Daren Yeow","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/8BvO_x6tuQ8"],["TIPS","https://youtu.be/OE4La-L15VE"],["BUY","https://www.thevirts.com"]]},{"name":"Squoze","by":"Eliot Slevin","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/DqFJCuQhIE4"]]},{"name":"Very Bad Habit","by":"Brian Tudor","diff":"Intermediate","cat":2,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=147"]]},{"name":"Virus","by":"Noel Heath","diff":"Intermediate","cat":2,"links":[["LINK","https://youtu.be/hpPm1lOSCPg"]]},{"name":"WERM","by":"Dan and Dave Buck","diff":"Easy","cat":2,"links":[["LINK","https://youtu.be/LywWQm0ivUE"],["BUY","https://store.theory11.com/products/werm-dan-and-dave-buck"]]},{"name":"Whiplash","by":"Matthew Beaudouin","diff":"Intermediate","cat":2,"links":[["LINK","https://www.youtube.com/watch?v=dYtVh6_HYu0"]]},{"name":"ATM","by":"Oliver Sogard","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/UvtjLyrdUTs"]]},{"name":"Backdrop","by":"Kevin Ho","diff":"Easy","cat":3,"links":[["PREVIEW","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"],["BUY","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"]]},{"name":"Biddle Flip","by":"Lars Mayrand","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/ptl5JNfcDkw"]]},{"name":"Blackhawk","by":"@martin_cardist","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/tvzxZBBG6kg"]]},{"name":"Deck Flip","by":"T.G. Murphy","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/DFIf1ZC1lY4"],["BUY","https://store.theory11.com/products/the-trilogy-by-dananddave"]]},{"name":"Erdnase Go Round","by":"Dan and Dave Buck","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/GKlB9HuFBeU"],["TIPS","https://youtu.be/cRH_kLqVX-I"],["BUY","https://www.vanishingincmagic.com/magic-downloads/flourishes-downloads/erdnase-go-round/"]]},{"name":"Flic","by":"Dan and Dave Buck","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/vG3hSfTdD2Y"]]},{"name":"Flicker Shot","by":"Huron Low","diff":"Intermediate","cat":3,"links":[["PREVIEW","https://youtu.be/t-hcHmTNy7c"],["BUY","https://www.thevirts.com"]]},{"name":"Instant Replay","by":"Paul Harris","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/Ul4Kc9ZOUOY"]]},{"name":"Judo-Shot","by":"Weston Hamilton","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/n9PQnaU3gCs"]]},{"name":"Long Dist. Spinner","by":"Audley V. Walsh","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/janqHU5Ydo0"]]},{"name":"Slicing Waterfall","by":"Jaspas","diff":"Easy","cat":3,"links":[["LINK","https://youtu.be/TYHV-8uSnkg"]]},{"name":"Thin Spring","by":"Classic Move","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/YeGPp3J774g"]]},{"name":"Throwback","by":"Max Galarce","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/fwxIraySvIE"]]},{"name":"Vertigo","by":"Dan and Dave Buck","diff":"Intermediate","cat":3,"links":[["LINK","https://youtu.be/UuGrR9HhDP0"],["BUY","https://www.vanishingincmagic.com/artofmagic/products/vertigo/"]]},{"name":"Carnahan Fan","by":"Dan and Dave Buck","diff":"Intermediate","cat":4,"links":[["PREVIEW","https://www.vanishingincmagic.com/artofmagic/products/carnahan-fan/"],["BUY","https://www.vanishingincmagic.com/artofmagic/products/carnahan-fan/"]]},{"name":"Crescent Rose","by":"Teo Chun Chieh","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/6zzsslPaC-g"]]},{"name":"Curly Q","by":"Randy Holt","diff":"Advanced","cat":4,"links":[["PREVIEW","https://youtu.be/IC9yyBfz58Q?t=9"]]},{"name":"Disk Fan","by":"Predator","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/gZjRfk52Lqk"]]},{"name":"Flower Fan","by":"Jerry Cestkowski","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/mBX-vhWpOtA"]]},{"name":"Fy Fan","by":"Birger Karlsson","diff":"Intermediate","cat":4,"links":[["PREVIEW","https://youtu.be/juGhc-Cxmjc?t=1m5s"]]},{"name":"Giant Fan","by":"Jerry Cestkowski","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/rSwTc81f3CE"]]},{"name":"Naoki Ogi Fan","by":"Naoki Ogi","diff":"Intermediate","cat":4,"links":[["TIPS","https://www.youtube.com/watch?v=f6bi0L75_l8"],["BUY","http://www.penguinmagic.com/p/S9685"]]},{"name":"Nebula Fan","by":"Baptiste Blomme","diff":"Intermediate","cat":4,"links":[["PREVIEW","https://www.instagram.com/p/Baq-UHvF-q_/"],["LINK","https://www.cardtutorialonly.com/wp-content/uploads/2016/09/HowTo360Easily.pdf"]]},{"name":"No-Weave Circle","by":"nebelfuchs","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/fVxo9e0whbo"]]},{"name":"Pressure Fan","by":"Classic Move","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/-GN_azvuYH4"],["LINK","https://youtu.be/MoEZUNV9DWY?t=1m29s"]]},{"name":"Reverse Fan","by":"Classic Move","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/3L-Z6H6oeck"]]},{"name":"Riffle Fan","by":"Dmitri Arleri","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/wNL7Vsw2L2A"],["TIPS","https://youtu.be/AcKhf1_qY_k"]]},{"name":"Smear Fan","by":"Classic Move","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/1E7t2BUM2rw"],["LINK","https://youtu.be/8MF9m9A_Cpg"],["LINK","https://youtu.be/7Ld1yztVSRA"]]},{"name":"Thumb Fan","by":"Classic Move","diff":"Easy","cat":4,"links":[["LINK","https://youtu.be/XFIQk2LiKD0"],["TIPS","https://youtu.be/fZqLvpgyePY"],["LINK","https://youtu.be/2Rxky5ilkSo"]]},{"name":"Yin-Yang Fan","by":"Tical","diff":"Intermediate","cat":4,"links":[["LINK","https://youtu.be/dPa7bmcVPaY"]]},{"name":"Angel","by":"Bone Ho","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/aNnBRUzCtyY"],["LINK","https://youtu.be/fRH4MyB4RVs"]]},{"name":"Basic Twirl","by":"Classic Move","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/fRH4MyB4RVs"]]},{"name":"Bullet","by":"Andrei Jikh","diff":"Intermediate","cat":5,"links":[["TIPS","https://youtu.be/XJoLhxAdBGg?t=14m49s"],["BUY","https://store.theory11.com/products/genesis-by-andrei-jikh"]]},{"name":"Chik Chik","by":"Nicolasupertramp","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/Zng-_4LeWRc"]]},{"name":"Falling Prince","by":"Kurtis Lin","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/RrtNjCYUtGE"]]},{"name":"Ferris","by":"Dan and Dave Buck","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/lLNzv0tkPbA"]]},{"name":"Flicker","by":"The Virts","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/RxGaOdPqVzo"],["TIPS","https://youtu.be/qNVMx2CL6Q4"],["TIPS","https://youtu.be/XJoLhxAdBGg?t=81"]]},{"name":"Inso Iso.","by":"Joey Cardist","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/IGtratrRTVM"]]},{"name":"Nestlo Iso.","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/dq6fbeIGfPI"]]},{"name":"One Card Twirl","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/aScUHcsIrvI"]]},{"name":"Padiddle / Pirouette","by":"Jerry Cestkowski","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/HDbxF6ONp5I"],["TIPS","https://youtu.be/7kB3wfbuvAY"],["TIPS","https://youtu.be/x_7njoWG9Yw"]]},{"name":"Palm Shift Iso.","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/yh6y9duc9sI"]]},{"name":"Phobos Deimos","by":"Noel Heath","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/PPMUpCCqNiI"],["BUY","http://www.cardistry-con.org/shop/brooklyn-bundle"]]},{"name":"Raccoon","by":"Kevin Ho","diff":"Easy","cat":5,"links":[["PREVIEW","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"],["BUY","https://www.vanishingincmagic.com/magic-downloads/card-magic-downloads/the-one-card-ep/"]]},{"name":"Recoil","by":"Yang Chan","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/TlsIZZL6BzE"]]},{"name":"Rotation Iso.","by":"Jaspas","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/aXa-8-lca5g"]]},{"name":"Satin","by":"kiichi","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/EQo51eI8dQY"]]},{"name":"Snap","by":"Nguyen Hoang Duy","diff":"Easy","cat":5,"links":[["LINK","https://www.youtube.com/watch?v=7fLC46AYgLs"]]},{"name":"Tiny Hands","by":"Scott Black","diff":"Intermediate","cat":5,"links":[["PREVIEW","https://youtu.be/NMY4AXUMGwg?t=55s"],["BUY","http://www.cardistry-con.org/shop/2017-tutorial-bundle"]]},{"name":"Turbine","by":"Andrei Jikh","diff":"Easy","cat":5,"links":[["PREVIEW","https://www.theory11.com/marketplace/andrei-jikh/turbine"],["BUY","https://www.theory11.com/marketplace/andrei-jikh/turbine"]]},{"name":"Two Card Twirl","by":"Kenneth Aidan Foo","diff":"Intermediate","cat":5,"links":[["LINK","https://youtu.be/M2ol1RyvhH4"]]},{"name":"Unnamed","by":"Broderick Rosete","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/skbUux3WIcw"]]},{"name":"Windstruck","by":"Yang Nguyen","diff":"Intermediate","cat":5,"links":[["LINK","https://www.youtube.com/watch?v=2nOzxog3iTo"]]},{"name":"ZM Card Twirl","by":"Zach Mueller","diff":"Easy","cat":5,"links":[["LINK","https://youtu.be/4cBMQX2zAvY"]]},{"name":"Cubone","by":"Leo Flores","diff":"Advanced","cat":6,"links":[["LINK","https://youtu.be/8Uyx8l3uZwg?t=451"]]},{"name":"Dropout","by":"Oliver Sogard","diff":"Easy","cat":6,"links":[["LINK","https://youtu.be/0_naI7jtzmc"]]},{"name":"Flippy","by":"Nguyen Hoang Duy","diff":"Intermediate","cat":6,"links":[["LINK","https://youtu.be/90mwq9S4a5s?t=37"],["BUY","https://the-new-deck-order.myshopify.com/products/spingod"]]},{"name":"Gecko","by":"Tim Zumstein","diff":"Easy","cat":6,"links":[["LINK","https://youtu.be/HFAD7HzhrBE"]]},{"name":"Legolove","by":"Nikolaj Pedersen","diff":"Intermediate","cat":6,"links":[["LINK","https://youtu.be/boV0c7bKAcM"]]},{"name":"Pincho","by":"Oliver Sogard","diff":"Easy","cat":6,"links":[["LINK","https://youtu.be/CiFSZ7CTVu8"]]},{"name":"Rolling Stones","by":"Tobias Levin","diff":"Intermediate","cat":6,"links":[["PREVIEW","https://youtu.be/mcuST7c-ZyE"]]},{"name":"Airstream","by":"Dan and Dave Buck","diff":"Easy","cat":7,"links":[["PREVIEW","https://youtu.be/NMY4AXUMGwg?t=20s"],["BUY","http://www.cardistry-con.org/shop/2017-tutorial-bundle"]]},{"name":"Armspread","by":"Classic Move","diff":"Easy","cat":7,"links":[["LINK","https://youtu.be/srSqrvcb6uQ"],["LINK","https://youtu.be/XhvD5h4sVBk"]]},{"name":"Buzzsaw","by":"Brendan Connor","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/A2e0AttfIN4?t=9m5s"]]},{"name":"Dripple","by":"Alvin Herp","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/hwTxU08nHsk"]]},{"name":"Flex","by":"Jonathan Warren","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/IYo6W9wyHxw"]]},{"name":"Friffle","by":"Oliver Sogard","diff":"Easy","cat":7,"links":[["LINK","https://youtu.be/dt0UrHFAoZ8"]]},{"name":"Rubix Opener","by":"The Virts","diff":"Easy","cat":7,"links":[["PREVIEW","https://youtu.be/2zhmi1pP054"],["BUY","http://www.thevirts.com"]]},{"name":"Shaolin","by":"Henrik Forberg","diff":"Easy","cat":7,"links":[["PREVIEW","https://youtu.be/wZsJ9bgm8c8"]]},{"name":"Spring Spin","by":"Antariksh Singh","diff":"Advanced","cat":7,"links":[["LINK","https://youtu.be/iqib_zQ9Yms"]]},{"name":"Swing Opener","by":"Jaspas","diff":"Easy","cat":7,"links":[["LINK","https://youtu.be/ATXFLKX2Vf4"]]},{"name":"Waterbend","by":"Joe Feldpausch","diff":"Intermediate","cat":7,"links":[["LINK","https://youtu.be/_BcGZbFNM0g"]]},{"name":"yo!","by":"Lee Asher","diff":"Intermediate","cat":7,"links":[["PREVIEW","https://youtu.be/K3PIy21qgak?t=2m45s"]]}]};
+
+        // id = stable progress key (saved in localStorage); when = display label
+        const roadmapData = {
+            phase1: [
+                { id: 1, when: "Week 1", title: "Basic Grips & Ribbon Spread", focus: "Finger placement, deck pressure, and an even table spread.", moves: [1, 11], exercises: ["Hold the deck in Mechanics & Biddle grips until they feel natural", "20 clean, even ribbon spreads on a table or close-up pad"] },
+                { id: 2, when: "Week 1", title: "Riffle Shuffle & Bridge", focus: "Interweaving corners precisely; breaking in the deck.", moves: [2], exercises: ["Riffle halves together corner-to-corner", "Finish with the arched bridge drop", "Alternate riffle direction to keep the deck straight"] },
+                { id: 3, when: "Week 2", title: "The Charlier Cut", focus: "One-handed mechanics and finger independence.", moves: [3], exercises: ["5 minutes of slow, deliberate left-hand Charlier cuts", "5 minutes of right-hand Charlier cuts"] },
+                { id: 4, when: "Week 2", title: "Swing Cut & Swivel Cut", focus: "Making clean packets, the building block of two-handed cuts.", moves: [4, 5], exercises: ["Swing cut a packet into the left hand 30x", "Swivel cut 30x, keeping the packet flat and controlled"] },
+                { id: 5, when: "Week 3", title: "Thumb Fan & Smear Fan", focus: "Even thumb pressure across the inner corner.", moves: [9, 10], exercises: ["Form smooth, circular thumb fans on a broken-in deck", "One-handed smear fans, then close them cleanly", "Stretch goal: pressure fan"] },
+                { id: 6, when: "Weeks 3-4", title: "Spring & Dribble", focus: "Tension control over distance.", moves: [7, 8], exercises: ["Bow the deck and spring between hands, keeping the stream tight", "Smooth dribbles from a consistent height", "Practice over a bed to catch drops"] },
+                { id: 7, when: "Week 4", title: "Active Review & Fluidity", focus: "Linking foundational moves.", moves: [], exercises: ["Cycle through all Phase 1 moves back-to-back", "Flow: Charlier Cut → Swing Cut → Thumb Fan"] }
+            ],
+            phase2: [
+                { id: 8, when: "Weeks 5-6", title: "The Revolution Cut", focus: "Charlier variation that revolves a packet around the thumb.", moves: [6], exercises: ["Start from a Charlier base", "Rotate the top packet 180° before closing"] },
+                { id: 9, when: "Week 7", title: "The Scissor Cut", focus: "Moving packets length-wise.", moves: [12], exercises: ["Slow scissor cuts, keeping both packets square", "Drill 30x in each hand"] },
+                { id: 10, when: "Week 8", title: "Hot Shot Cut", focus: "Your first one-handed card shot / aerial.", moves: [13], exercises: ["Practice the shot with a small arc first", "Catch cleanly; practice over a bed"] },
+                { id: 11, when: "Week 9", title: "Five Faces of Sybil (Part 1)", focus: "Multi-packet grip splits.", moves: [14], exercises: ["Learn the opening grips", "Split the deck cleanly into distinct packets"] },
+                { id: 12, when: "Week 10", title: "Five Faces of Sybil (Part 2)", focus: "Completing the display and closing.", moves: [14], exercises: ["Execute the full Sybil sequence", "Reassemble packets into a square deck (drill 30x)"] },
+                { id: 13, when: "Week 11", title: "WERM", focus: "Simple two-handed cut + display with graceful extension.", moves: [15], exercises: ["Practice the full WERM sequence", "Keep fingers extended gracefully rather than clenching"] },
+                { id: 14, when: "Week 12", title: "Faro Shuffle Basics", focus: "Knacky but essential: exact interlace control.", moves: [16], exercises: ["Push exact halves together", "Interweave corners smoothly without bending cards", "Keep drilling it in your warm-ups; the faro takes a long time to click"] },
+                { id: 15, when: "Week 13", title: "Combo Flow & Mirror Check", focus: "Self-evaluation & continuous motion.", moves: [], exercises: ["Link: Charlier → Revolution Cut → Sybil", "Record yourself on your phone to check the audience view angle"] }
+            ],
+            phase3: [
+                { id: "16-21", when: "Month 4", title: "Speed & Cleanliness Cycle", focus: "Eliminating clumsy hand adjustments.", moves: [], exercises: ["Pick ONE beginner move each day; execute at 50% speed", "Aim for 0 dropped cards and zero readjustments"] },
+                { id: "22-28", when: "Month 5", title: "Pick Your Path", focus: "Branch out using the Move Library.", moves: [], exercises: ["Choose 2-3 Easy moves from the Move Library tab (e.g. Bloom, Peach, Pinball, Molecule Cut)", "Learn each from the original creator's tutorial and star it when learned"] },
+                { id: "29+", when: "Month 6+", title: "Original Composition", focus: "Creating custom sequence transitions.", moves: [], exercises: ["Take the opening packet split of Sybil and transition into a Revolution Cut finish", "Study the creative-process resources in Tips & FAQ"] }
+            ]
+        };
+
+        const phaseNotes = {
+            phase1: "About a month. Each block is that week's focus move; keep the 20-minute daily routine going and fold earlier moves into Maintenance.",
+            phase2: "About two months. These moves take longer to click, so stay on a block until it's clean rather than moving on because the week ended.",
+            phase3: "Ongoing. By now you're choosing your own moves; use these blocks as monthly themes."
+        };
+
+        const store = {
+            get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; } },
+            set(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+        };
+        let completedDays = store.get('cardistry_progress', {});
+        let learned = store.get('cardistry_learned', {});
+
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const linkChip = ([label, url]) => {
+            const buy = label === 'BUY';
+            return `<a href="${esc(url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded border ${buy ? 'border-amber-500/40 text-amber-300 hover:bg-amber-500/10' : 'border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/10'} transition"><i class="fa-solid ${buy ? 'fa-cart-shopping' : 'fa-play'} text-[9px]"></i>${esc(label)}</a>`;
+        };
+
+        function renderPhase(phaseKey, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 text-sm rounded-xl px-5 py-3 flex gap-3 items-start">
+                    <i class="fa-solid fa-calendar-days mt-0.5"></i>
+                    <span>${phaseNotes[phaseKey]} <strong class="text-indigo-100">Move on when you can do a move cleanly 10 times in a row, not when the calendar says so.</strong></span>
+                </div>` + roadmapData[phaseKey].map(item => {
+                const tutorials = item.moves.map(n => HUB.prog[n - 1]).map(m => `
+                    <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                        <span class="text-slate-400 mr-1"><i class="fa-solid fa-graduation-cap"></i> ${esc(m.name)} tutorials:</span>
+                        ${m.links.map(linkChip).join('')}
+                    </div>`).join('');
+                return `
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <span class="bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 font-mono font-bold text-xs px-2.5 py-1 rounded-md">
+                                ${item.when}
+                            </span>
+                            <h3 class="font-bold text-lg text-slate-100">${item.title}</h3>
+                        </div>
+                        <p class="text-sm text-slate-400"><strong class="text-slate-300">Focus:</strong> ${item.focus}</p>
+                        <ul class="text-xs text-slate-300 space-y-1 mt-2 list-disc list-inside">
+                            ${item.exercises.map(ex => `<li>${ex}</li>`).join('')}
+                        </ul>
+                        ${tutorials ? `<div class="pt-2 space-y-1.5">${tutorials}</div>` : ''}
+                    </div>
+                    <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+                        <label class="flex items-center gap-2 cursor-pointer bg-slate-900 border border-slate-700 px-4 py-2 rounded-lg hover:border-indigo-500 transition">
+                            <input type="checkbox" ${completedDays[item.id] ? 'checked' : ''}
+                                   onchange="toggleDay('${item.id}')"
+                                   class="w-4 h-4 text-indigo-600 rounded bg-slate-800 border-slate-600 focus:ring-indigo-500">
+                            <span class="text-xs font-semibold text-slate-300">Complete</span>
+                        </label>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function toggleDay(day) {
+            completedDays[day] = !completedDays[day];
+            store.set('cardistry_progress', completedDays);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const allDays = Object.values(roadmapData).flat().map(d => String(d.id));
+            const count = allDays.filter(d => completedDays[d]).length;
+            const percentage = Math.round((count / allDays.length) * 100);
+
+            document.getElementById('overall-progress').style.width = percentage + '%';
+            document.getElementById('progress-text').innerText = `${percentage}% Complete`;
+            const n = HUB.lib.filter(m => learned[m.name]).length;
+            document.getElementById('learned-text').innerText = `${n} library move${n === 1 ? '' : 's'} learned`;
+        }
+
+        const diffStyle = {
+            Easy: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+            Intermediate: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+            Advanced: 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+        };
+
+        function renderLibrary() {
+            const q = document.getElementById('lib-search').value.trim().toLowerCase();
+            const cat = document.getElementById('lib-cat').value;
+            const diff = document.getElementById('lib-diff').value;
+            const onlyLearned = document.getElementById('lib-learned').checked;
+            const rows = HUB.lib.map((m, i) => ({ ...m, i })).filter(m =>
+                (!q || m.name.toLowerCase().includes(q) || m.by.toLowerCase().includes(q)) &&
+                (cat === '' || m.cat === +cat) &&
+                (!diff || m.diff === diff) &&
+                (!onlyLearned || learned[m.name]));
+
+            document.getElementById('lib-count').innerText = `${rows.length} of ${HUB.lib.length} moves`;
+            document.getElementById('lib-grid').innerHTML = rows.map(m => `
+                <div class="bg-slate-800 border ${learned[m.name] ? 'border-indigo-500/60' : 'border-slate-700'} rounded-xl p-4 flex flex-col gap-2">
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <div class="font-bold text-slate-100">${esc(m.name)}</div>
+                            <div class="text-xs text-slate-400">${esc(m.by)}</div>
+                        </div>
+                        <button onclick="toggleLearned(${m.i})" title="Mark learned" class="text-lg ${learned[m.name] ? 'text-amber-400' : 'text-slate-600 hover:text-slate-400'} transition">
+                            <i class="fa-${learned[m.name] ? 'solid' : 'regular'} fa-star"></i>
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
+                        <span class="px-2 py-0.5 rounded border ${diffStyle[m.diff] || ''}">${esc(m.diff)}</span>
+                        <span class="text-slate-500">${esc(HUB.cats[m.cat])}</span>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mt-auto pt-1">
+                        ${m.links.length ? m.links.map(linkChip).join('') : '<span class="text-[11px] text-slate-500 italic">No tutorial: learn from slo-mo performances</span>'}
+                    </div>
+                </div>`).join('') || '<div class="text-sm text-slate-500 col-span-full">No moves match.</div>';
+        }
+
+        function toggleLearned(i) {
+            const name = HUB.lib[i].name;
+            learned[name] = !learned[name];
+            store.set('cardistry_learned', learned);
+            renderLibrary();
+            updateProgress();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('button[id^="tab-"]').forEach(btn => btn.classList.remove('tab-active'));
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('tab-active');
+        }
+
+        // Initialize
+        document.getElementById('lib-cat').innerHTML = '<option value="">All categories</option>' +
+            HUB.cats.map((c, i) => `<option value="${i}">${esc(c)}</option>`).join('');
+        renderPhase('phase1', 'section-phase1');
+        renderPhase('phase2', 'section-phase2');
+        renderPhase('phase3', 'section-phase3');
+        renderLibrary();
+        updateProgress();
+    </script>
+</body>
+</html>
